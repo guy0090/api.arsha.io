@@ -1,0 +1,15 @@
+# Spring tomcat
+server:
+  port: 3000
+  address: 0.0.0.0
+# Redis config
+cache:
+  redis:
+    host: redis-test.service.arsha
+    port: 6380
+  ttl: 2
+# Logging
+logging:
+  level:
+    io.arsha.api: DEBUG
+    web: DEBUG

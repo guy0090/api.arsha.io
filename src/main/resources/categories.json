@@ -1,0 +1,774 @@
+[
+  {
+    "id": "1",
+    "name": "Main Weapon",
+    "subCategories": [
+      {
+        "id": "1",
+        "name": "Longsword"
+      },
+      {
+        "id": "2",
+        "name": "Longbow"
+      },
+      {
+        "id": "3",
+        "name": "Amulet"
+      },
+      {
+        "id": "4",
+        "name": "Axe"
+      },
+      {
+        "id": "5",
+        "name": "Shortsword"
+      },
+      {
+        "id": "6",
+        "name": "Blade"
+      },
+      {
+        "id": "7",
+        "name": "Staff"
+      },
+      {
+        "id": "8",
+        "name": "Kriegsmesser"
+      },
+      {
+        "id": "9",
+        "name": "Gauntlet"
+      },
+      {
+        "id": "10",
+        "name": "Crescent Pendulum"
+      },
+      {
+        "id": "11",
+        "name": "Crossbow"
+      },
+      {
+        "id": "12",
+        "name": "Florang"
+      },
+      {
+        "id": "13",
+        "name": "Battle Axe"
+      },
+      {
+        "id": "14",
+        "name": "Shamshir"
+      },
+      {
+        "id": "15",
+        "name": "Morning Star"
+      },
+      {
+        "id": "16",
+        "name": "Kyve"
+      },
+      {
+        "id": "17",
+        "name": "Serenaca"
+      },
+      {
+        "id": "18",
+        "name": "Slayer"
+      },
+      {
+        "id": "19",
+        "name": "Swallowtail Fan"
+      },
+      {
+        "id": "20",
+        "name": "Foxspirit Charm"
+      }
+    ]
+  },
+  {
+    "id": "5",
+    "name": "Sub Weapon",
+    "subCategories": [
+      {
+        "id": "1",
+        "name": "Shield"
+      },
+      {
+        "id": "2",
+        "name": "Dagger"
+      },
+      {
+        "id": "3",
+        "name": "Talisman"
+      },
+      {
+        "id": "4",
+        "name": "Ornamental Knot"
+      },
+      {
+        "id": "5",
+        "name": "Trinket"
+      },
+      {
+        "id": "6",
+        "name": "Horn Bow"
+      },
+      {
+        "id": "7",
+        "name": "Kunai"
+      },
+      {
+        "id": "8",
+        "name": "Shuriken"
+      },
+      {
+        "id": "9",
+        "name": "Vambrace"
+      },
+      {
+        "id": "10",
+        "name": "Noble Sword"
+      },
+      {
+        "id": "11",
+        "name": "Ra'ghon"
+      },
+      {
+        "id": "12",
+        "name": "Vitclari"
+      },
+      {
+        "id": "13",
+        "name": "Haladie"
+      },
+      {
+        "id": "14",
+        "name": "Quoratum"
+      },
+      {
+        "id": "15",
+        "name": "Mareca"
+      },
+      {
+        "id": "16",
+        "name": "Shard"
+      },
+      {
+        "id": "17",
+        "name": "Do Stave"
+      },
+      {
+        "id": "18",
+        "name": "Binyeo Knife"
+      }
+    ]
+  },
+  {
+    "id": "10",
+    "name": "Awakening Weapon",
+    "subCategories": [
+      {
+        "id": "1",
+        "name": "Great Sword"
+      },
+      {
+        "id": "2",
+        "name": "Scythe"
+      },
+      {
+        "id": "3",
+        "name": "Iron Buster"
+      },
+      {
+        "id": "4",
+        "name": "Kamasylven Sword"
+      },
+      {
+        "id": "5",
+        "name": "Celestial Bo Staff"
+      },
+      {
+        "id": "6",
+        "name": "Lancia"
+      },
+      {
+        "id": "7",
+        "name": "Crescent Blade"
+      },
+      {
+        "id": "8",
+        "name": "Kerispear"
+      },
+      {
+        "id": "9",
+        "name": "Sura Katana"
+      },
+      {
+        "id": "10",
+        "name": "Sah Chakram"
+      },
+      {
+        "id": "11",
+        "name": "Aad Sphera"
+      },
+      {
+        "id": "12",
+        "name": "Godr Sphera"
+      },
+      {
+        "id": "13",
+        "name": "Vediant"
+      },
+      {
+        "id": "14",
+        "name": "Gardbrace"
+      },
+      {
+        "id": "15",
+        "name": "Cestus"
+      },
+      {
+        "id": "16",
+        "name": "Crimson Glaives"
+      },
+      {
+        "id": "17",
+        "name": "Greatbow"
+      },
+      {
+        "id": "19",
+        "name": "Jordun"
+      },
+      {
+        "id": "20",
+        "name": "Dual Glaives"
+      },
+      {
+        "id": "21",
+        "name": "Sting"
+      },
+      {
+        "id": "22",
+        "name": "Kibelius"
+      },
+      {
+        "id": "23",
+        "name": "Patraca"
+      },
+      {
+        "id": "24",
+        "name": "Trion"
+      },
+      {
+        "id": "25",
+        "name": "Soul Tome"
+      },
+      {
+        "id": "26",
+        "name": "Foxtail Fans"
+      }
+    ]
+  },
+  {
+    "id": "15",
+    "name": "Armor",
+    "subCategories": [
+      {
+        "id": "1",
+        "name": "Helmet"
+      },
+      {
+        "id": "2",
+        "name": "Armor"
+      },
+      {
+        "id": "3",
+        "name": "Gloves"
+      },
+      {
+        "id": "4",
+        "name": "Shoes"
+      },
+      {
+        "id": "5",
+        "name": "Functional Clothes"
+      },
+      {
+        "id": "6",
+        "name": "Crafted Clothes"
+      }
+    ]
+  },
+  {
+    "id": "20",
+    "name": "Accessory",
+    "subCategories": [
+      {
+        "id": "1",
+        "name": "Ring"
+      },
+      {
+        "id": "2",
+        "name": "Necklace"
+      },
+      {
+        "id": "3",
+        "name": "Earring"
+      },
+      {
+        "id": "4",
+        "name": "Belt"
+      }
+    ]
+  },
+  {
+    "id": "25",
+    "name": "Material",
+    "subCategories": [
+      {
+        "id": "1",
+        "name": "Ore/Gem"
+      },
+      {
+        "id": "2",
+        "name": "Plants"
+      },
+      {
+        "id": "3",
+        "name": "Seed/Fruit"
+      },
+      {
+        "id": "4",
+        "name": "Leather"
+      },
+      {
+        "id": "5",
+        "name": "Blood"
+      },
+      {
+        "id": "6",
+        "name": "Meat"
+      },
+      {
+        "id": "7",
+        "name": "Seafood"
+      },
+      {
+        "id": "8",
+        "name": "Misc."
+      }
+    ]
+  },
+  {
+    "id": "30",
+    "name": "Enhancement/Upgrade",
+    "subCategories": [
+      {
+        "id": "1",
+        "name": "Black Stone"
+      },
+      {
+        "id": "2",
+        "name": "Upgrade"
+      }
+    ]
+  },
+  {
+    "id": "35",
+    "name": "Consumables",
+    "subCategories": [
+      {
+        "id": "1",
+        "name": "Offensive Elixir"
+      },
+      {
+        "id": "2",
+        "name": "Defensive Elixir"
+      },
+      {
+        "id": "3",
+        "name": "Functional Elixir"
+      },
+      {
+        "id": "4",
+        "name": "Food"
+      },
+      {
+        "id": "5",
+        "name": "Potion"
+      },
+      {
+        "id": "6",
+        "name": "Siege Items"
+      },
+      {
+        "id": "7",
+        "name": "Item Parts"
+      },
+      {
+        "id": "8",
+        "name": "Other Consumables"
+      }
+    ]
+  },
+  {
+    "id": "40",
+    "name": "Life Tools",
+    "subCategories": [
+      {
+        "id": "1",
+        "name": "Lumbering Axe"
+      },
+      {
+        "id": "2",
+        "name": "Fluid Collector"
+      },
+      {
+        "id": "3",
+        "name": "Butcher Knife"
+      },
+      {
+        "id": "4",
+        "name": "Pickaxe"
+      },
+      {
+        "id": "5",
+        "name": "Hoe"
+      },
+      {
+        "id": "6",
+        "name": "Tanning Knife"
+      },
+      {
+        "id": "7",
+        "name": "Fishing Tools"
+      },
+      {
+        "id": "8",
+        "name": "Matchlock"
+      },
+      {
+        "id": "9",
+        "name": "Alchemy/Cooking"
+      },
+      {
+        "id": "10",
+        "name": "Other Tools"
+      }
+    ]
+  },
+  {
+    "id": "45",
+    "name": "Alchemy Stone",
+    "subCategories": [
+      {
+        "id": "1",
+        "name": "Destruction"
+      },
+      {
+        "id": "2",
+        "name": "Protection"
+      },
+      {
+        "id": "3",
+        "name": "Life"
+      },
+      {
+        "id": "4",
+        "name": "Spirit Stone"
+      }
+    ]
+  },
+  {
+    "id": "50",
+    "name": "Magic Crystal",
+    "subCategories": [
+      {
+        "id": "1",
+        "name": "Attack Crystal"
+      },
+      {
+        "id": "2",
+        "name": "Defense Crystal"
+      },
+      {
+        "id": "3",
+        "name": "Functional Crystal"
+      },
+      {
+        "id": "4",
+        "name": "Combined Crystal"
+      }
+    ]
+  },
+  {
+    "id": "55",
+    "name": "Pearl Items",
+    "subCategories": [
+      {
+        "id": "1",
+        "name": "Male Apparel (Set)"
+      },
+      {
+        "id": "2",
+        "name": "Female Apparels (Set)"
+      },
+      {
+        "id": "3",
+        "name": "Male Apparel (Individual)"
+      },
+      {
+        "id": "4",
+        "name": "Female Apparel (Individual)"
+      },
+      {
+        "id": "5",
+        "name": "Class-based Apparel (Set)"
+      },
+      {
+        "id": "6",
+        "name": "Functional"
+      },
+      {
+        "id": "7",
+        "name": "Mount"
+      },
+      {
+        "id": "8",
+        "name": "Pet"
+      }
+    ]
+  },
+  {
+    "id": "60",
+    "name": "Dye",
+    "subCategories": [
+      {
+        "id": "1",
+        "name": "Basic"
+      },
+      {
+        "id": "2",
+        "name": "Olvia"
+      },
+      {
+        "id": "3",
+        "name": "Velia"
+      },
+      {
+        "id": "4",
+        "name": "Heidelian"
+      },
+      {
+        "id": "5",
+        "name": "Keplan"
+      },
+      {
+        "id": "6",
+        "name": "Calpheon"
+      },
+      {
+        "id": "7",
+        "name": "Mediah"
+      },
+      {
+        "id": "8",
+        "name": "Valencia"
+      }
+    ]
+  },
+  {
+    "id": "65",
+    "name": "Mount",
+    "subCategories": [
+      {
+        "id": "1",
+        "name": "Registration"
+      },
+      {
+        "id": "2",
+        "name": "Feed"
+      },
+      {
+        "id": "3",
+        "name": "Champron"
+      },
+      {
+        "id": "4",
+        "name": "Barding"
+      },
+      {
+        "id": "5",
+        "name": "Saddle"
+      },
+      {
+        "id": "6",
+        "name": "Stirrups"
+      },
+      {
+        "id": "7",
+        "name": "Horseshoe"
+      },
+      {
+        "id": "9",
+        "name": "[Elephant] Stirrups"
+      },
+      {
+        "id": "10",
+        "name": "[Elephant] Armor"
+      },
+      {
+        "id": "11",
+        "name": "[Elephant] Mask"
+      },
+      {
+        "id": "12",
+        "name": "[Elephant] Saddle"
+      },
+      {
+        "id": "13",
+        "name": "Courser Training"
+      }
+    ]
+  },
+  {
+    "id": "70",
+    "name": "Ship",
+    "subCategories": [
+      {
+        "id": "1",
+        "name": "Registration"
+      },
+      {
+        "id": "2",
+        "name": "Cargo"
+      },
+      {
+        "id": "3",
+        "name": "Prow"
+      },
+      {
+        "id": "4",
+        "name": "Decoration"
+      },
+      {
+        "id": "5",
+        "name": "Totem"
+      },
+      {
+        "id": "6",
+        "name": "Prow Statue"
+      },
+      {
+        "id": "7",
+        "name": "Plating"
+      },
+      {
+        "id": "8",
+        "name": "Cannon"
+      },
+      {
+        "id": "9",
+        "name": "Sail"
+      }
+    ]
+  },
+  {
+    "id": "75",
+    "name": "Wagon",
+    "subCategories": [
+      {
+        "id": "1",
+        "name": "Registration"
+      },
+      {
+        "id": "2",
+        "name": "Wheel"
+      },
+      {
+        "id": "3",
+        "name": "Cover"
+      },
+      {
+        "id": "4",
+        "name": "Flag"
+      },
+      {
+        "id": "5",
+        "name": "Emblem"
+      },
+      {
+        "id": "6",
+        "name": "Lamp"
+      }
+    ]
+  },
+  {
+    "id": "80",
+    "name": "Furniture",
+    "subCategories": [
+      {
+        "id": "1",
+        "name": "Bed"
+      },
+      {
+        "id": "2",
+        "name": "Bedside Table/Table"
+      },
+      {
+        "id": "3",
+        "name": "Wardrobe/Bookshelf"
+      },
+      {
+        "id": "4",
+        "name": "Sofa/Chair"
+      },
+      {
+        "id": "5",
+        "name": "Chandelier"
+      },
+      {
+        "id": "6",
+        "name": "Floor/Carpet"
+      },
+      {
+        "id": "7",
+        "name": "Wall/Curtain"
+      },
+      {
+        "id": "8",
+        "name": "Decoration"
+      },
+      {
+        "id": "9",
+        "name": "Others"
+      }
+    ]
+  },
+  {
+    "id": "85",
+    "name": "Lightstone",
+    "subCategories": [
+      {
+        "id": "1",
+        "name": "Lightstone of Fire"
+      },
+      {
+        "id": "2",
+        "name": "Lightstone of Earth"
+      },
+      {
+        "id": "3",
+        "name": "Lightstone of Wind"
+      },
+      {
+        "id": "4",
+        "name": "Lightstone of Flora"
+      },
+      {
+        "id": "5",
+        "name": "Special Lightstone"
+      }
+    ]
+  }
+]

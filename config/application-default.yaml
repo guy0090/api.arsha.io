@@ -1,0 +1,87 @@
+# Runtime config
+server:
+  port: 3000
+  address: 0.0.0.0
+spring:
+  devtools:
+    livereload:
+      enabled: false
+    add-properties: false
+
+# Redis config
+cache:
+  redis:
+    host: redis.service.arsha
+    port: 6379
+  ttl: 30
+
+# Logging
+logging:
+  level:
+    io.arsha.api: INFO
+    web: ERROR
+
+# BDOCodex config
+codex:
+  url: "bdocodex.com"
+  locales:
+    - "en"
+    - "de"
+    - "fr"
+    - "ru"
+    - "es"
+    - "sp"
+    - "jp"
+    - "kr"
+    - "th"
+    - "id"
+    - "cn"
+    - "tr"
+    - "pt"
+    - "tw"
+    - "gl"
+
+# Configure marketplace regions
+marketplace:
+  na:
+    enabled: true
+    url: "na-trade.naeu.playblackdesert.com"
+  eu:
+    enabled: true
+    url: "eu-trade.naeu.playblackdesert.com"
+  sea:
+    enabled: true
+    url: "trade.sea.playblackdesert.com"
+  mena:
+    enabled: true
+    url: "trade.mena.playblackdesert.com"
+  kr:
+    enabled: true
+    url: "trade.kr.playblackdesert.com"
+  ru:
+    enabled: true
+    url: "trade.ru.playblackdesert.com"
+  jp:
+    enabled: true
+    url: "trade.jp.playblackdesert.com"
+  th:
+    enabled: true
+    url: "trade.th.playblackdesert.com"
+  tw:
+    enabled: true
+    url: "trade.tw.playblackdesert.com"
+  sa:
+    enabled: true
+    url: "trade.sa.playblackdesert.com"
+  gl:
+    enabled: true
+    url: "trade.global-lab.playblackdesert.com"
+  console.na:
+    enabled: true
+    url: "na-trade.console.playblackdesert.com"
+  console.eu:
+    enabled: true
+    url: "eu-trade.console.playblackdesert.com"
+  console.asia:
+    enabled: true
+    url: "asia-trade.console.playblackdesert.com"
