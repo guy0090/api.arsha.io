@@ -8,12 +8,16 @@ spring:
       enabled: true
     add-properties: true
 
+# REST documentation URL for redirect
+docs: "https://documenter.getpostman.com/view/4028519/2s9Y5YRhp4#674b362e-2a27-4961-ac07-dfb925aee842"
+
 # Redis config
 cache:
   redis:
     host: redis.service.arsha
     port: 6379
   ttl: 5
+
 # Logging
 logging:
   level:

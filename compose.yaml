@@ -21,8 +21,8 @@ services:
       - '3000:3000'
   redis:
     image: 'redis:latest'
-    # ports:
-    #   - '6379:6379'
+    ports:
+      - '6379:6379'
     networks:
       arsha:
         aliases:

@@ -126,7 +126,7 @@ public class MarketService {
             default -> requestMany(keys);
         };
 
-        var scrapedItems = scraperService.getScrapedItems(locale, ids);
+        var scrapedItems = scraperService.getMappedScrapedItems(locale, ids);
         if (endpoint == MarketEndpoint.MARKET_LIST) scrapedItems.clear();
 
         for (var i = 0; i < responses.size(); i++) {
@@ -144,7 +144,7 @@ public class MarketService {
 
         if (scrapedItems.isEmpty() && !result.isEmpty()) {
             ids = result.getItemIds();
-            scrapedItems = scraperService.getScrapedItems(locale, ids);
+            scrapedItems = scraperService.getMappedScrapedItems(locale, ids);
             result.setNames(scrapedItems);
         }
 

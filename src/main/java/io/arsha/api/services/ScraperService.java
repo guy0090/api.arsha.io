@@ -4,6 +4,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import io.arsha.api.config.services.CodexConfigurationService;
 import io.arsha.api.data.scraper.CodexData;
 import io.arsha.api.data.scraper.ScrapedItem;
+import io.arsha.api.exceptions.InvalidLocaleException;
 import jakarta.annotation.Nullable;
 import jakarta.inject.Inject;
 import lombok.RequiredArgsConstructor;
@@ -13,10 +14,7 @@ import org.springframework.web.client.RestTemplate;
 
 import java.time.Duration;
 import java.time.Instant;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Optional;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -82,7 +80,7 @@ public class ScraperService {
         return redisService.get(locale, itemId);
     }
 
-    public Map<Long, ScrapedItem> getScrapedItems(String locale, List<Long> ids) {
+    public Map<Long, ScrapedItem> getMappedScrapedItems(String locale, List<Long> ids) {
         var scrapedItems = redisService.getMany(locale, ids);
 
         var items = new HashMap<Long, ScrapedItem>();
@@ -93,6 +91,20 @@ public class ScraperService {
         }
 
         return items;
+    }
+
+    public List<ScrapedItem> getMany(String locale, List<Long> ids) throws InvalidLocaleException {
+        if (!codexConfigurationService.isValidLocale(locale)) {
+            throw new InvalidLocaleException(locale);
+        }
+        return redisService.getMany(locale, ids);
+    }
+
+    public List<ScrapedItem> getAll(String locale) throws InvalidLocaleException {
+        if (!codexConfigurationService.isValidLocale(locale)) {
+            throw new InvalidLocaleException(locale);
+        }
+        return redisService.getAll(locale);
     }
 
     public Optional<Instant> getLastScrapedTime(String locale) {

@@ -27,7 +27,7 @@ public class CodexConfigurationService {
     }
 
     public boolean isValidLocale(String locale) {
-        return bdoCodexProperties.getLocales().contains(locale.toLowerCase());
+        return bdoCodexProperties.getLocales().contains(locale);
     }
 
     public List<String> getLocales() {

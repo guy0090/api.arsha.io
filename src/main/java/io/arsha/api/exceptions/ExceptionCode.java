@@ -21,7 +21,10 @@ public enum ExceptionCode {
     INVALID_MARKET_CATEGORY(102),
 
     // Request Validation
-    ID_SID_MISMATCH(200);
+    ID_SID_MISMATCH(200),
+
+    // Util Requests
+    INVALID_LOCALE(300);
 
     private final int code;
 }
