@@ -50,6 +50,5 @@ docker compose up -d
 ### Updating:
 ```bash
 git pull
-docker compose down api
 docker compose up --build api -d
 ```
