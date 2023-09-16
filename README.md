@@ -46,3 +46,10 @@ vim config/application.yaml
 # Build and start container
 docker compose up -d
 ```
+
+### Updating:
+```bash
+git pull
+docker compose down api
+docker compose up --build api -d
+```

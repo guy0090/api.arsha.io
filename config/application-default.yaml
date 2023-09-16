@@ -54,7 +54,7 @@ marketplace:
     url: "eu-trade.naeu.playblackdesert.com"
   sea:
     enabled: true
-    url: "trade.sea.playblackdesert.com"
+    url: "asia-trade.blackdesert.pearlabyss.com"
   mena:
     enabled: true
     url: "trade.mena.playblackdesert.com"
@@ -69,7 +69,7 @@ marketplace:
     url: "trade.jp.playblackdesert.com"
   th:
     enabled: true
-    url: "trade.th.playblackdesert.com"
+    url: "asia-trade.blackdesert.pearlabyss.com"
   tw:
     enabled: true
     url: "trade.tw.playblackdesert.com"
