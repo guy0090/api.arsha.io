@@ -36,7 +36,7 @@ dependencies {
 	implementation("jakarta.inject:jakarta.inject-api:2.0.1")
 	implementation("org.apache.httpcomponents.client5:httpclient5:5.3-alpha1")
 	implementation("org.jsoup:jsoup:1.16.1")
-	implementation("me.kleidukos:huffman-decoder:1.0.0")
+	implementation("org.thshsh:struct:2.2.0")
 	compileOnly("org.projectlombok:lombok")
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	// developmentOnly("org.springframework.boot:spring-boot-docker-compose")

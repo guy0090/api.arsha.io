@@ -1,5 +1,6 @@
 package io.arsha.api.controllers;
 
+import io.arsha.api.data.CacheCompositeKey;
 import io.arsha.api.data.market.common.MarketEndpoint;
 import io.arsha.api.data.market.items.*;
 import io.arsha.api.data.market.responses.ParsedList;
@@ -11,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -138,5 +140,29 @@ public class V2Controller extends AbstractController<ParsedList> {
     ) throws AbstractException {
         var key = searchRequest(ids, region);
         return marketService.requestParsedItem(key, lang);
+    }
+
+    @RequestMapping(value = "/market", method = {RequestMethod.GET, RequestMethod.POST})
+    protected GetWorldMarketList getMarket(
+            @PathVariable String region,
+            @RequestParam(required = false) String lang
+    ) throws AbstractException {
+        var categories = categoryService.getMainCategories().stream().map(Category::new).toList();
+        var keys = new ArrayList<CacheCompositeKey>();
+        for (var category : categories) {
+            keys.addAll(categoryRequest(category, region));
+        }
+
+        return marketService.requestParsedItems(keys, lang);
+    }
+
+    @RequestMapping(value = "pearlItems", method = {RequestMethod.GET, RequestMethod.POST})
+    protected GetWorldMarketList getPearlItems(
+            @PathVariable String region,
+            @RequestParam(required = false) String lang
+    ) throws AbstractException {
+        var pearlItemsCategory = new Category(55L);
+        var keys = categoryRequest(pearlItemsCategory, region);
+        return marketService.requestParsedItems(keys, lang);
     }
 }

@@ -47,7 +47,7 @@ vim config/application.yaml
 docker compose up -d
 ```
 
-### Updating:
+#### Updating:
 ```bash
 git pull
 docker compose up --build api -d

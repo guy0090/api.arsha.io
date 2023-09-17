@@ -16,4 +16,8 @@ public class Category {
     Long mainCategory;
     @Nullable @Min(1)
     Long subCategory;
+
+    public Category(@NonNull Long mainCategory) {
+        this.mainCategory = mainCategory;
+    }
 }

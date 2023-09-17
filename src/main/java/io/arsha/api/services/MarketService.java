@@ -94,7 +94,7 @@ public class MarketService {
     }
 
     // Special case to handle category requests and to allow grabbing all subcategories if not explicitly specified
-    public RawItems requestCategoryResult(List<CacheCompositeKey> keys) throws MarketRequestException {
+    public RawItems requestCategoryResult(List<CacheCompositeKey> keys, boolean combinedResult) throws MarketRequestException {
         if (keys.size() == 1) {
             var result = marketRedisService.get(keys.get(0));
             if (result.isPresent()) return new RawItems(result.get());
@@ -106,7 +106,7 @@ public class MarketService {
         }
 
         var results = requestMany(keys);
-        return results.combinedResult("");
+        return combinedResult ? results.combinedResult("") : results;
     }
 
     // Responsible for handling any V2 parsed item requests.
@@ -121,7 +121,7 @@ public class MarketService {
 
         var endpoint = keys.get(0).getEndpoint();
         var responses = switch (endpoint) {
-            case MARKET_LIST -> requestCategoryResult(keys);
+            case MARKET_LIST -> requestCategoryResult(keys, false); // can't re-assign sub category otherwise
             case MARKET_SEARCH_LIST -> requestSearchResult(keys.get(0));
             default -> requestMany(keys);
         };
@@ -173,7 +173,7 @@ public class MarketService {
         for (var future : futures) {
             var tuple = future.get();
             var key = tuple.getT1();
-            var response = tuple.getT2().orElseThrow(() -> new MarketRequestException(key.getPrimary()));
+            var response = tuple.getT2().orElseThrow(() -> new MarketRequestException(key));
 
             marketRedisService.setDefaultExpireAsync(key, response);
             results.put(key, response);

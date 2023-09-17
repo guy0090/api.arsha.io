@@ -45,20 +45,20 @@ public class MarketRedisService {
         marketRedisTemplate.opsForValue().set(key, value, ttl);
     }
 
-    @Async("asyncRedisExecutor")
+    @Async("asyncExecutor")
     public CompletableFuture<CacheCompositeKey> setEternalAsync(CacheCompositeKey key, MarketResponse value) {
         setEternal(key, value);
         return CompletableFuture.completedFuture(key);
     }
 
-    @Async("asyncRedisExecutor")
+    @Async("asyncExecutor")
     @SneakyThrows
     public CompletableFuture<CacheCompositeKey> setDefaultExpireAsync(CacheCompositeKey key, MarketResponse value) {
         setDefaultExpire(key, value);
         return CompletableFuture.completedFuture(key);
     }
 
-    @Async("asyncRedisExecutor")
+    @Async("asyncExecutor")
     public CompletableFuture<CacheCompositeKey> setExpireAsync(CacheCompositeKey key, MarketResponse value, Duration ttl) {
         setExpire(key, value, ttl);
         return CompletableFuture.completedFuture(key);

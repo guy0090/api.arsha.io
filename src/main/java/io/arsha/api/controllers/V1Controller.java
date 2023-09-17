@@ -1,5 +1,6 @@
 package io.arsha.api.controllers;
 
+import io.arsha.api.data.CacheCompositeKey;
 import io.arsha.api.data.market.common.MarketEndpoint;
 import io.arsha.api.data.market.items.GetWorldMarketSubList;
 import io.arsha.api.data.rest.Category;
@@ -13,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Set;
 
@@ -117,7 +119,7 @@ public class V1Controller extends AbstractController<MarketResponse> {
     ) throws AbstractException {
         var category = new Category(mainCategory, subCategory);
         var keys = categoryRequest(category, region);
-        return marketService.requestCategoryResult(keys);
+        return marketService.requestCategoryResult(keys, true);
     }
 
     @PostMapping(value = {"/GetWorldMarketList", "/category"})
@@ -127,7 +129,7 @@ public class V1Controller extends AbstractController<MarketResponse> {
             @RequestParam(required = false) String lang
     ) throws AbstractException {
         var keys = categoryRequest(categories, region);
-        return marketService.requestCategoryResult(keys);
+        return marketService.requestCategoryResult(keys, true);
     }
 
     @GetMapping(value = {"/GetWorldMarketSearchList", "/search"})
@@ -161,6 +163,28 @@ public class V1Controller extends AbstractController<MarketResponse> {
     ) throws AbstractException {
         var idaAndSid = IdAndSid.singleton(id, sid);
         return priceItemRequest(region, idaAndSid, lang);
+    }
+
+    @RequestMapping(value = "/market", method = {RequestMethod.GET, RequestMethod.POST})
+    protected RawItems getMarket(
+            @PathVariable String region
+    ) throws AbstractException {
+        var categories = categoryService.getMainCategories().stream().map(Category::new).toList();
+        var keys = new ArrayList<CacheCompositeKey>();
+        for (var category : categories) {
+            keys.addAll(categoryRequest(category, region));
+        }
+
+        return marketService.requestCategoryResult(keys, true);
+    }
+
+    @RequestMapping(value = "pearlItems", method = {RequestMethod.GET, RequestMethod.POST})
+    protected RawItems getPearlItems(
+            @PathVariable String region
+    ) throws AbstractException {
+        var pearlItemsCategory = new Category(55L);
+        var keys = categoryRequest(pearlItemsCategory, region);
+        return marketService.requestCategoryResult(keys, true);
     }
 
     @PostMapping("/price")

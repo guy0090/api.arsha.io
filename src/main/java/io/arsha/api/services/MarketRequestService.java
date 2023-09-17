@@ -7,10 +7,10 @@ import io.arsha.api.data.market.MarketRequest;
 import io.arsha.api.data.market.MarketResponse;
 import io.arsha.api.data.market.requests.*;
 import io.arsha.api.exceptions.CannotBeRegisteredException;
+import io.arsha.api.lib.HuffmanDecoder;
 import jakarta.inject.Inject;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import me.kleidukos.HuffmanDecoder;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.scheduling.annotation.Async;
@@ -33,6 +33,7 @@ public class MarketRequestService {
 
     private final RestTemplate client;
     private final MarketConfigurationService marketConfigurationService;
+    private final HuffmanDecoder huffmanDecoder;
 
     private Optional<MarketResponse> sendRequest(MarketRequest marketRequest) {
         var region = marketConfigurationService.getMarketRegion(marketRequest.region());
@@ -62,7 +63,7 @@ public class MarketRequestService {
         }
     }
 
-    @Async("asyncRequestExecutor")
+    @Async("asyncExecutor")
     public CompletableFuture<Tuple2<CacheCompositeKey, Optional<MarketResponse>>> request(CacheCompositeKey key) {
         var primary = key.getPrimary();
         var secondary = key.getSecondary();
@@ -84,11 +85,11 @@ public class MarketRequestService {
         return CompletableFuture.completedFuture(Tuples.of(key, response));
     }
 
-    public String huffmanDecode(byte[] data) throws CannotBeRegisteredException, IOException {
+    public String huffmanDecode(byte[] data) throws CannotBeRegisteredException {
         var testString = new String(data);
         if (testString.contains("resultMsg")) {
             throw new CannotBeRegisteredException(testString);
         }
-        return HuffmanDecoder.decode(data);
+        return huffmanDecoder.decode(data);
     }
 }
