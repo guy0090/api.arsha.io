@@ -49,13 +49,13 @@ public class ScraperDataRedisService {
         redisTemplate.opsForHash().putAll(locale, mapped);
     }
 
-    @Async("asyncRedisExecutor")
+    @Async("asyncExecutor")
     public CompletableFuture<?> putAsync(String locale, Long id, ScrapedItem value) {
         put(locale, id, value);
         return CompletableFuture.completedFuture(null);
     }
 
-    @Async("asyncRedisExecutor")
+    @Async("asyncExecutor")
     public CompletableFuture<?> putAllAsync(String locale, List<ScrapedItem> items) {
         putAll(locale, items);
         return CompletableFuture.completedFuture(null);
