@@ -1,4 +1,4 @@
-package io.arsha.api.util;
+package io.arsha.api.lib;
 
 import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.boot.test.context.SpringBootTest;

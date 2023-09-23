@@ -12,9 +12,11 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.time.Duration;
-import java.time.Instant;
-import java.util.*;
+import java.time.DayOfWeek;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Slf4j
@@ -26,11 +28,9 @@ public class ScraperService {
     private final ScraperDataRedisService redisService;
     private final CodexConfigurationService codexConfigurationService;
 
-    static final Duration MIN_SCRAPE_INTERVAL = Duration.ofDays(6);
-
     @Nullable
-    public Integer scrape(String locale, Boolean force) {
-        var data = requestItems(locale, force);
+    public Integer scrape(String locale, boolean force, boolean scheduled) {
+        var data = requestItems(locale, force, scheduled);
         if (data == null) return null;
 
         var items = scrapeItems(data);
@@ -40,8 +40,8 @@ public class ScraperService {
     }
 
     @Nullable
-    public CodexData requestItems(String locale, Boolean force) {
-        var scrapeNeeded = force || isScrapeNeeded(locale);
+    public CodexData requestItems(String locale, boolean force, boolean scheduled) {
+        var scrapeNeeded = force || isScrapeNeeded(locale, scheduled);
         if (!scrapeNeeded) return null;
 
         try {
@@ -69,10 +69,11 @@ public class ScraperService {
         redisService.saveLastScrapedTime(locale);
     }
 
-    public Boolean isScrapeNeeded(String locale) {
-        var lastScrapedTime = redisService.getLastScrapedTime(locale);
-        var timeSinceLastScrape = lastScrapedTime.map(time -> Duration.between(time, Instant.now()));
-        return timeSinceLastScrape.isEmpty() || timeSinceLastScrape.get().compareTo(MIN_SCRAPE_INTERVAL) > 0;
+    public Boolean isScrapeNeeded(String locale, boolean scheduled) {
+        var lastScrapedTime = redisService.getLastScrapedTime(locale).orElse(null);
+        if (!scheduled && lastScrapedTime != null) return false;
+
+        return lastScrapedTime == null || lastScrapedTime.getDayOfWeek() == DayOfWeek.THURSDAY;
     }
 
     public Optional<ScrapedItem> getScrapedItem(String locale, Long id) {
@@ -105,10 +106,6 @@ public class ScraperService {
             throw new InvalidLocaleException(locale);
         }
         return redisService.getAll(locale);
-    }
-
-    public Optional<Instant> getLastScrapedTime(String locale) {
-        return redisService.getLastScrapedTime(locale);
     }
 
 }

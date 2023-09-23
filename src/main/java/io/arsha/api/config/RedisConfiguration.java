@@ -1,7 +1,7 @@
 package io.arsha.api.config;
 
-import io.arsha.api.data.CacheCompositeKey;
 import io.arsha.api.config.services.CacheConfigurationService;
+import io.arsha.api.data.CacheCompositeKey;
 import io.arsha.api.data.market.MarketResponse;
 import io.arsha.api.data.scraper.ScrapedItem;
 import io.arsha.api.lib.CacheCompositeKeyRedisSerializer;

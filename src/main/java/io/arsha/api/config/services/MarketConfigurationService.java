@@ -1,7 +1,7 @@
 package io.arsha.api.config.services;
 
-import io.arsha.api.data.market.common.GameRegion;
 import io.arsha.api.config.properties.MarketProperties;
+import io.arsha.api.data.market.common.GameRegion;
 import jakarta.inject.Inject;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;

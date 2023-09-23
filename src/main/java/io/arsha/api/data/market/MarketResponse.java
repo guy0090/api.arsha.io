@@ -19,6 +19,7 @@ import java.util.List;
 @Builder(toBuilder = true)
 public class MarketResponse implements IMarketResponse {
 
+    @Builder.Default
     @JsonProperty("resultCode")
     private Integer resultCode = 0;
 

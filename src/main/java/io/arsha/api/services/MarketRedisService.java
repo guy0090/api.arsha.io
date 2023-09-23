@@ -1,12 +1,11 @@
 package io.arsha.api.services;
 
-import io.arsha.api.data.CacheCompositeKey;
 import io.arsha.api.config.services.CacheConfigurationService;
+import io.arsha.api.data.CacheCompositeKey;
 import io.arsha.api.data.market.MarketResponse;
 import io.arsha.api.lib.CacheCompositeKeyRedisSerializer;
 import io.arsha.api.lib.MarketResponseValueRedisSerializer;
 import jakarta.inject.Inject;
-import lombok.NonNull;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -19,7 +18,10 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.time.Duration;
-import java.util.*;
+import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -28,9 +30,7 @@ import java.util.concurrent.TimeUnit;
 @RequiredArgsConstructor(onConstructor = @__(@Inject))
 public class MarketRedisService {
 
-    @NonNull
     private final RedisTemplate<CacheCompositeKey, MarketResponse> marketRedisTemplate;
-    @NonNull
     private final CacheConfigurationService configService;
 
     public void setEternal(CacheCompositeKey key, MarketResponse value) {

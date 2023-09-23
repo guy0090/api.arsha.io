@@ -1,8 +1,8 @@
 package io.arsha.api.services;
 
 import io.arsha.api.data.CacheCompositeKey;
-import io.arsha.api.data.market.common.MarketEndpoint;
 import io.arsha.api.data.market.MarketResponse;
+import io.arsha.api.data.market.common.MarketEndpoint;
 import io.arsha.api.data.market.responses.ParsedItems;
 import io.arsha.api.data.market.responses.RawItems;
 import io.arsha.api.exceptions.AbstractException;

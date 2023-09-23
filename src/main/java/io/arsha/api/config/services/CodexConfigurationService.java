@@ -5,7 +5,6 @@ import jakarta.inject.Inject;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.net.MalformedURLException;
 import java.net.URI;
 import java.util.List;
 

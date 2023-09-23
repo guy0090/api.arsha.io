@@ -1,10 +1,10 @@
 package io.arsha.api.services;
 
-import io.arsha.api.data.CacheCompositeKey;
-import io.arsha.api.data.market.common.MarketConstants;
 import io.arsha.api.config.services.MarketConfigurationService;
+import io.arsha.api.data.CacheCompositeKey;
 import io.arsha.api.data.market.MarketRequest;
 import io.arsha.api.data.market.MarketResponse;
+import io.arsha.api.data.market.common.MarketConstants;
 import io.arsha.api.data.market.requests.*;
 import io.arsha.api.exceptions.CannotBeRegisteredException;
 import io.arsha.api.lib.HuffmanDecoder;
@@ -19,7 +19,6 @@ import org.springframework.web.client.RestTemplate;
 import reactor.util.function.Tuple2;
 import reactor.util.function.Tuples;
 
-import java.io.IOException;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 

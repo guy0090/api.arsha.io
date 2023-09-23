@@ -1,6 +1,8 @@
 package io.arsha.api.services;
 
-import io.arsha.api.config.MarketCategoriesConfiguration.*;
+import io.arsha.api.config.MarketCategoriesConfiguration.MarketCategories;
+import io.arsha.api.config.MarketCategoriesConfiguration.MarketCategory;
+import io.arsha.api.config.MarketCategoriesConfiguration.MarketSubCategory;
 import jakarta.annotation.Nullable;
 import jakarta.inject.Inject;
 import lombok.RequiredArgsConstructor;

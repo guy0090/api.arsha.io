@@ -1,11 +1,10 @@
 package io.arsha.api.services;
 
 import io.arsha.api.data.CacheCompositeKey;
+import io.arsha.api.data.market.MarketResponse;
 import io.arsha.api.data.market.common.GameRegion;
 import io.arsha.api.data.market.common.MarketEndpoint;
-import io.arsha.api.data.market.MarketResponse;
-import io.arsha.api.util.AppTest;
-import lombok.extern.slf4j.Slf4j;
+import io.arsha.api.lib.AppTest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -18,7 +17,6 @@ import java.util.LinkedHashMap;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
-@Slf4j
 @AppTest
 class MarketRedisServiceTest {
 

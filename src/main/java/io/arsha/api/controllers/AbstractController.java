@@ -1,14 +1,14 @@
 package io.arsha.api.controllers;
 
+import io.arsha.api.config.services.MarketConfigurationService;
 import io.arsha.api.data.CacheCompositeKey;
+import io.arsha.api.data.market.IMarketResponse;
 import io.arsha.api.data.market.common.GameRegion;
 import io.arsha.api.data.market.common.MarketEndpoint;
-import io.arsha.api.config.services.MarketConfigurationService;
+import io.arsha.api.data.market.responses.MarketResponses;
 import io.arsha.api.data.rest.Category;
 import io.arsha.api.data.rest.IdAndSid;
 import io.arsha.api.data.rest.Ids;
-import io.arsha.api.data.market.IMarketResponse;
-import io.arsha.api.data.market.responses.MarketResponses;
 import io.arsha.api.exceptions.AbstractException;
 import io.arsha.api.exceptions.IdAndSidMismatchException;
 import io.arsha.api.exceptions.MarketRegionException;
@@ -22,7 +22,9 @@ import jakarta.validation.constraints.Size;
 import lombok.NonNull;
 import org.hibernate.validator.constraints.Length;
 
-import java.util.*;
+import java.util.Collections;
+import java.util.List;
+import java.util.Set;
 
 public abstract class AbstractController<T extends IMarketResponse> {
 

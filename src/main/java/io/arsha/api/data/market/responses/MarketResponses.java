@@ -2,7 +2,8 @@ package io.arsha.api.data.market.responses;
 
 import io.arsha.api.data.market.IMarketResponse;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Utility class to handle serializing a single item or a list of items.

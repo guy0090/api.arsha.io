@@ -25,17 +25,21 @@ public class ScraperScheduler {
 
     @EventListener(ApplicationReadyEvent.class)
     public void runScrapeAtStartup() {
-        scrapeAll();
+        scrapeAll(false);
     }
 
     @Scheduled(cron = "0 0 0 * * 4")
-    private void scrapeAll() {
+    private void scrape() {
+        scrapeAll(true);
+    }
+
+    private void scrapeAll(boolean scheduled) {
         log.info("Starting scheduled scrape of all locales");
         var locales = codexConfigurationService.getLocales();
         var start = Instant.now();
         for (var locale : locales) {
             log.info("Scraping locale {}", locale);
-            var count = scraperService.scrape(locale, false);
+            var count = scraperService.scrape(locale, false, scheduled);
             if (count != null) log.info("Scraped {} items from locale {}", count, locale);
             else log.info("Skipped scrape for locale {}", locale);
         }

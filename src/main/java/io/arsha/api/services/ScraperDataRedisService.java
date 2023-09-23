@@ -8,6 +8,8 @@ import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 import java.time.Instant;
+import java.time.OffsetDateTime;
+import java.time.ZoneId;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -27,9 +29,13 @@ public class ScraperDataRedisService {
         redisStringTemplate.<String, String>opsForHash().put(LAST_SCRAPE_TIME_KEY, locale, String.valueOf(System.currentTimeMillis()));
     }
 
-    public Optional<Instant> getLastScrapedTime(String locale) {
+    public Optional<OffsetDateTime> getLastScrapedTime(String locale) {
         var time = redisStringTemplate.<String, String>opsForHash().get(LAST_SCRAPE_TIME_KEY, locale);
-        return Optional.ofNullable(time).map(Long::valueOf).map(Instant::ofEpochMilli);
+        return Optional.ofNullable(time)
+                .map(epoch -> {
+                    var instant = Instant.ofEpochMilli(Long.parseLong(epoch));
+                    return OffsetDateTime.ofInstant(instant, ZoneId.of("UTC"));
+                });
     }
 
     public Map<String, Instant> getLastScrapedTimes() {

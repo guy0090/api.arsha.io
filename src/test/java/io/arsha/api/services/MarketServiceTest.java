@@ -3,8 +3,7 @@ package io.arsha.api.services;
 import io.arsha.api.MarketResponseFixtures;
 import io.arsha.api.data.market.common.MarketEndpoint;
 import io.arsha.api.exceptions.MarketRequestException;
-import io.arsha.api.util.AppTest;
-import lombok.extern.slf4j.Slf4j;
+import io.arsha.api.lib.AppTest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -20,7 +19,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-@Slf4j
 @AppTest
 class MarketServiceTest {
 

@@ -1,4 +1,4 @@
-FROM azul/zulu-openjdk:20-latest AS builder
+FROM azul/zulu-openjdk:21-latest AS builder
 
 COPY .. /app
 WORKDIR /app
@@ -16,4 +16,4 @@ COPY --from=builder /app/config/application-default.yaml /arsha/config/applicati
 
 WORKDIR /arsha
 
-ENTRYPOINT ["java", "--enable-preview", "-jar", "app.jar"]
+ENTRYPOINT ["java", "-jar", "app.jar"]

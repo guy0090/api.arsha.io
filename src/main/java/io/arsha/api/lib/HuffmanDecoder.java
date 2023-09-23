@@ -1,14 +1,10 @@
 package io.arsha.api.lib;
 
-import java.util.BitSet;
-import java.util.LinkedHashMap;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.Map;
-
 import io.arsha.api.exceptions.CannotBeRegisteredException;
 import org.springframework.stereotype.Component;
 import org.thshsh.struct.Struct;
+
+import java.util.*;
 
 // Implementation from https://github.com/shrddr/huffman_heap
 @Component
