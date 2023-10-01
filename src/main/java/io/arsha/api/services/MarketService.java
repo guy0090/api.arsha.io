@@ -3,6 +3,7 @@ package io.arsha.api.services;
 import io.arsha.api.data.CacheCompositeKey;
 import io.arsha.api.data.market.MarketResponse;
 import io.arsha.api.data.market.common.MarketEndpoint;
+import io.arsha.api.data.market.items.GetWorldMarketList;
 import io.arsha.api.data.market.responses.ParsedItems;
 import io.arsha.api.data.market.responses.RawItems;
 import io.arsha.api.exceptions.AbstractException;
@@ -42,7 +43,6 @@ public class MarketService {
         return new RawItems(response);
     }
 
-    // This is async, will max out at 100 parallel requests
     @SneakyThrows
     @SuppressWarnings("unchecked")
     public RawItems requestMany(List<CacheCompositeKey> keys) {
@@ -126,8 +126,10 @@ public class MarketService {
             default -> requestMany(keys);
         };
 
+        // Category requests don't contain the IDs of the items.
+        // The names are fetched after the request(s) finish and are processed
+        if (endpoint == MarketEndpoint.MARKET_LIST) ids.clear();
         var scrapedItems = scraperService.getMappedScrapedItems(locale, ids);
-        if (endpoint == MarketEndpoint.MARKET_LIST) scrapedItems.clear();
 
         for (var i = 0; i < responses.size(); i++) {
             var key = keys.get(i);
@@ -146,6 +148,10 @@ public class MarketService {
             ids = result.getItemIds();
             scrapedItems = scraperService.getMappedScrapedItems(locale, ids);
             result.setNames(scrapedItems);
+        }
+
+        if (result instanceof GetWorldMarketList marketList && result.size() > 1) {
+            marketList.combine();
         }
 
         return result;

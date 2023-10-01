@@ -2,6 +2,8 @@
 server:
   port: 3000
   address: 0.0.0.0
+  compression:
+    enabled: true
 spring:
   devtools:
     livereload:

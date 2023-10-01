@@ -178,7 +178,7 @@ public class V1Controller extends AbstractController<MarketResponse> {
         return marketService.requestCategoryResult(keys, true);
     }
 
-    @RequestMapping(value = "pearlItems", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "/pearlItems", method = {RequestMethod.GET, RequestMethod.POST})
     protected RawItems getPearlItems(
             @PathVariable String region
     ) throws AbstractException {

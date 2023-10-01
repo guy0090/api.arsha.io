@@ -156,7 +156,7 @@ public class V2Controller extends AbstractController<ParsedList> {
         return marketService.requestParsedItems(keys, lang);
     }
 
-    @RequestMapping(value = "pearlItems", method = {RequestMethod.GET, RequestMethod.POST})
+    @RequestMapping(value = "/pearlItems", method = {RequestMethod.GET, RequestMethod.POST})
     protected GetWorldMarketList getPearlItems(
             @PathVariable String region,
             @RequestParam(required = false) String lang

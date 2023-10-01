@@ -18,6 +18,17 @@ public class GetWorldMarketList extends ParsedItems<ParsedList> {
         add(results);
     }
 
+    public void combine() {
+        var results = new ParsedList();
+
+        for (var subList : this) {
+            results.addAll(subList);
+        }
+
+        this.clear();
+        this.add(results);
+    }
+
     @Data
     @EqualsAndHashCode(callSuper = true)
     public static class Item extends ParsedList.ParsedItem {
