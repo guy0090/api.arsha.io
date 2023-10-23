@@ -27,7 +27,7 @@ public class UtilityController {
     final ObjectMapper mapper = new ObjectMapper();
     private final ScraperService scraperService;
 
-    @GetMapping("/db")
+    @GetMapping(value = "/db", produces = "application/json")
     protected String getScrapedItem(
             @Nullable @RequestParam(required = false) @Size(min = 2, max = 2) String lang,
             @Nullable @RequestParam(required = false) @Size(max = 100) Set<Long> id

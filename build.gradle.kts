@@ -20,7 +20,6 @@ configurations {
 
 repositories {
 	mavenCentral()
-	maven("https://eldonexus.de/repository/maven-public")
 }
 
 dependencies {
