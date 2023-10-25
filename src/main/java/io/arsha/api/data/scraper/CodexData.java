@@ -3,6 +3,7 @@ package io.arsha.api.data.scraper;
 import lombok.Builder;
 import lombok.extern.jackson.Jacksonized;
 import org.jsoup.Jsoup;
+import org.jsoup.parser.Parser;
 
 import java.util.List;
 
@@ -17,7 +18,7 @@ public record CodexData(List<List<String>> aaData) {
 
         return ScrapedItem.builder()
                 .id(id)
-                .name(name)
+                .name(Parser.unescapeEntities(name, true))
                 .grade(grade)
                 .build();
     }
