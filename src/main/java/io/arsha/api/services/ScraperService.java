@@ -5,14 +5,14 @@ import io.arsha.api.config.services.CodexConfigurationService;
 import io.arsha.api.data.scraper.CodexData;
 import io.arsha.api.data.scraper.ScrapedItem;
 import io.arsha.api.exceptions.InvalidLocaleException;
-import jakarta.annotation.Nullable;
+import io.arsha.api.schedulers.ScraperScheduler.ExecutionType;
 import jakarta.inject.Inject;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
-import java.time.DayOfWeek;
+import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -28,29 +28,30 @@ public class ScraperService {
     private final ScraperDataRedisService redisService;
     private final CodexConfigurationService codexConfigurationService;
 
-    @Nullable
-    public Integer scrape(String locale, boolean force, boolean scheduled) {
-        var data = requestItems(locale, force, scheduled);
-        if (data == null) return null;
+    public Optional<Integer> scrape(String locale, ExecutionType executionType) {
+        var data = requestItems(locale, executionType);
+        if (data.isEmpty()) return Optional.empty();
 
-        var items = scrapeItems(data);
+        var items = scrapeItems(data.get());
         saveItems(locale, items);
 
-        return items.size();
+        return Optional.of(items.size());
     }
 
-    @Nullable
-    public CodexData requestItems(String locale, boolean force, boolean scheduled) {
-        var scrapeNeeded = force || isScrapeNeeded(locale, scheduled);
-        if (!scrapeNeeded) return null;
+    public Optional<CodexData> requestItems(String locale, ExecutionType executionType) {
+        var scrapeNeeded = executionType.isForced() || isScrapeNeeded(locale);
+        if (!scrapeNeeded) return Optional.empty();
 
         try {
             var url = codexConfigurationService.getItemsEndpoint(locale);
             var response = httpClient.getForObject(url, String.class); // Returned content type is text/html and not application/json
-            return new ObjectMapper().readValue(response.substring(1), CodexData.class);
+            if (response == null) return Optional.empty();
+
+            return Optional.of(
+                    new ObjectMapper().readValue(response.substring(1), CodexData.class));
         } catch (Exception e) {
             log.error("Error requesting items from codex", e);
-            return null;
+            return Optional.empty();
         }
     }
 
@@ -69,11 +70,16 @@ public class ScraperService {
         redisService.saveLastScrapedTime(locale);
     }
 
-    public Boolean isScrapeNeeded(String locale, boolean scheduled) {
+    /**
+     * Scrape is needed if no previous scrape has been done or if the last scrape was more than 6 days ago
+     * A scheduled run is done every Thursday at 1am
+     */
+    public boolean isScrapeNeeded(String locale) {
         var lastScrapedTime = redisService.getLastScrapedTime(locale).orElse(null);
-        if (!scheduled && lastScrapedTime != null) return false;
+        if (lastScrapedTime == null) return true;
 
-        return lastScrapedTime == null || lastScrapedTime.getDayOfWeek() == DayOfWeek.THURSDAY;
+        log.debug("Last scrape time for locale '{}': {}", locale, lastScrapedTime);
+        return Instant.now().isAfter(lastScrapedTime.plusDays(6).toInstant());
     }
 
     public Optional<ScrapedItem> getScrapedItem(String locale, Long id) {

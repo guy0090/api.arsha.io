@@ -25,25 +25,35 @@ public class ScraperScheduler {
 
     @EventListener(ApplicationReadyEvent.class)
     public void runScrapeAtStartup() {
-        scrapeAll(false);
+        scrapeAll(ExecutionType.STARTUP);
     }
 
-    @Scheduled(cron = "0 0 0 * * 4")
+    @Scheduled(cron = "0 0 1 * * THU")
     private void scrape() {
-        scrapeAll(true);
+        scrapeAll(ExecutionType.CRON);
     }
 
-    private void scrapeAll(boolean scheduled) {
+    private void scrapeAll(ExecutionType executionType) {
         log.info("Starting scheduled scrape of all locales");
         var locales = codexConfigurationService.getLocales();
         var start = Instant.now();
         for (var locale : locales) {
             log.info("Scraping locale {}", locale);
-            var count = scraperService.scrape(locale, false, scheduled);
-            if (count != null) log.info("Scraped {} items from locale {}", count, locale);
-            else log.info("Skipped scrape for locale {}", locale);
+            var count = scraperService.scrape(locale, executionType);
+            count.ifPresentOrElse(
+                    c -> log.info("Scraped {} items from locale {}", c, locale),
+                    () -> log.info("Skipped scrape for locale {}", locale));
         }
         log.info("Finished scheduled scrape of all locales in {} seconds", Duration.between(start, Instant.now()).getSeconds());
     }
 
+    public enum ExecutionType {
+        STARTUP,
+        CRON,
+        FORCED;
+
+        public boolean isForced() {
+            return this == FORCED;
+        }
+    }
 }
