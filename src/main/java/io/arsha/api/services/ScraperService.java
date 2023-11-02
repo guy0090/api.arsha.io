@@ -39,7 +39,9 @@ public class ScraperService {
     }
 
     public Optional<CodexData> requestItems(String locale, ExecutionType executionType) {
-        var scrapeNeeded = executionType.isForced() || isScrapeNeeded(locale);
+        // If called during startup, validate if a new scrape is needed
+        // If called during a scheduled or forced run, always scrape
+        var scrapeNeeded = !executionType.isStartup() || isScrapeNeeded(locale);
         if (!scrapeNeeded) return Optional.empty();
 
         try {

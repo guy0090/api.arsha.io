@@ -52,8 +52,8 @@ public class ScraperScheduler {
         CRON,
         FORCED;
 
-        public boolean isForced() {
-            return this == FORCED;
+        public boolean isStartup() {
+            return this == STARTUP;
         }
     }
 }
