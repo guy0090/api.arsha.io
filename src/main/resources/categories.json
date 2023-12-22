@@ -82,6 +82,10 @@
       {
         "id": "20",
         "name": "Foxspirit Charm"
+      },
+      {
+        "id": "21",
+        "name": "Hammer"
       }
     ]
   },
@@ -160,6 +164,10 @@
       {
         "id": "18",
         "name": "Binyeo Knife"
+      },
+      {
+        "id": "19",
+        "name": "Gravity Core"
       }
     ]
   },
@@ -266,6 +274,10 @@
       {
         "id": "26",
         "name": "Foxtail Fans"
+      },
+      {
+        "id": "27",
+        "name": "Sledgehammer"
       }
     ]
   },
@@ -768,6 +780,10 @@
       {
         "id": "5",
         "name": "Special Lightstone"
+      },
+      {
+        "id": "6",
+        "name": "Artifact"
       }
     ]
   }
