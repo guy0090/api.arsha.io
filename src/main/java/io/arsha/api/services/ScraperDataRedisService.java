@@ -21,9 +21,22 @@ import java.util.stream.Collectors;
 public class ScraperDataRedisService {
 
     static final String LAST_SCRAPE_TIME_KEY = "lastScrapedTime";
+    static final String LOCK_KEY = "scraperLock";
 
     private final RedisTemplate<String, ScrapedItem> redisTemplate;
     private final RedisTemplate<String, String> redisStringTemplate;
+
+    public void setLock(String lockOwner) {
+        redisStringTemplate.opsForValue().set(LOCK_KEY, lockOwner);
+    }
+
+    public void releaseLock() {
+        redisStringTemplate.delete(LOCK_KEY);
+    }
+
+    public Optional<String> getLockOwner() {
+        return Optional.ofNullable(redisStringTemplate.opsForValue().get(LOCK_KEY));
+    }
 
     public void saveLastScrapedTime(String locale) {
         redisStringTemplate.<String, String>opsForHash().put(LAST_SCRAPE_TIME_KEY, locale, String.valueOf(System.currentTimeMillis()));
@@ -79,5 +92,5 @@ public class ScraperDataRedisService {
     public List<ScrapedItem> getAll(String locale) {
         return redisTemplate.<String, ScrapedItem>opsForHash().values(locale);
     }
-    
+
 }

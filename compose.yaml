@@ -11,6 +11,7 @@ services:
       arsha:
         aliases:
           - api.service.arsha
+          - api
     links:
       - redis
       # - redis-test
@@ -27,6 +28,7 @@ services:
       arsha:
         aliases:
           - redis.service.arsha
+          - redis
     volumes:
       - redis-data:/data
 #  redis-test:

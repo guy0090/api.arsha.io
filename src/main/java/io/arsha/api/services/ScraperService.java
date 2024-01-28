@@ -24,9 +24,33 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor(onConstructor = @__(@Inject))
 public class ScraperService {
 
+    private final String hostName = System.getenv("HOSTNAME");
     private final RestTemplate httpClient;
     private final ScraperDataRedisService redisService;
     private final CodexConfigurationService codexConfigurationService;
+
+    public void setLock() {
+        redisService.setLock(hostName);
+    }
+
+    public void releaseLock() {
+        getLockOwner().ifPresent(k -> {
+            if (k.equals(hostName)) {
+                log.info("Releasing lock '{}'", hostName);
+                redisService.releaseLock();
+            } else {
+                log.debug("Attempted to release lock for host '{}' but lock is owned by '{}'", hostName, k);
+            }
+        });
+    }
+
+    public Optional<String> getLockOwner() {
+        return redisService.getLockOwner();
+    }
+
+    public boolean isLockOwner() {
+        return getLockOwner().map(k -> k.equals(hostName)).orElse(false);
+    }
 
     public Optional<Integer> scrape(String locale, ExecutionType executionType) {
         var data = requestItems(locale, executionType);

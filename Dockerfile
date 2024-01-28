@@ -1,4 +1,4 @@
-FROM azul/zulu-openjdk:21-latest AS builder
+FROM azul/zulu-openjdk-alpine:21-latest AS builder
 
 COPY .. /app
 WORKDIR /app
@@ -7,7 +7,7 @@ RUN chmod 755 ./**
 
 RUN ["./gradlew", "clean", "build", "-x", "test"]
 
-FROM builder AS runner
+FROM azul/zulu-openjdk-alpine:21-latest AS runner
 
 RUN mkdir -p /arsha/config
 

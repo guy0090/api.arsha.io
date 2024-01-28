@@ -22,8 +22,8 @@ public class GetWorldMarketSearchList extends ParsedItems<ParsedList> {
     @EqualsAndHashCode(callSuper = true)
     public static class Item extends ParsedList.ParsedItem {
         Long currentStock;
-        Long totalTrades;
         Long basePrice;
+        Long totalTrades;
 
         Item(String name, String item) {
             String[] attributes = item.split("-");
@@ -31,8 +31,8 @@ public class GetWorldMarketSearchList extends ParsedItems<ParsedList> {
             setName(name);
             setId(Long.valueOf(attributes[0]));
             currentStock = Long.valueOf(attributes[1]);
-            totalTrades = Long.valueOf(attributes[2]);
-            basePrice = Long.valueOf(attributes[3]);
+            basePrice = Long.valueOf(attributes[2]);
+            totalTrades = Long.valueOf(attributes[3]);
         }
     }
 }

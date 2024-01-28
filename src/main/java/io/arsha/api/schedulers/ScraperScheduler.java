@@ -34,17 +34,32 @@ public class ScraperScheduler {
     }
 
     private void scrapeAll(ExecutionType executionType) {
-        log.info("Starting scheduled scrape of all locales");
-        var locales = codexConfigurationService.getLocales();
-        var start = Instant.now();
-        for (var locale : locales) {
-            log.info("Scraping locale {}", locale);
-            var count = scraperService.scrape(locale, executionType);
-            count.ifPresentOrElse(
-                    c -> log.info("Scraped {} items from locale {}", c, locale),
-                    () -> log.info("Skipped scrape for locale {}", locale));
+        try {
+            log.info("Starting scheduled scrape of all locales");
+            var locales = codexConfigurationService.getLocales();
+
+            scraperService.setLock();
+            Thread.sleep(500); // Slowest wins lock ownership
+            if (!scraperService.isLockOwner()) {
+                log.info("Skipping scrape because lock is owned by '{}'", scraperService.getLockOwner().orElse("unknown"));
+                return;
+            }
+
+            var start = Instant.now();
+            for (var locale : locales) {
+                log.info("Scraping locale {}", locale);
+                var count = scraperService.scrape(locale, executionType);
+                count.ifPresentOrElse(
+                        c -> log.info("Scraped {} items from locale {}", c, locale),
+                        () -> log.info("Skipped scrape for locale {}", locale));
+            }
+            log.info("Finished scheduled scrape of all locales in {} seconds", Duration.between(start, Instant.now()).getSeconds());
+        } catch (InterruptedException e) {
+            log.error("Error scraping all locales", e);
+            Thread.currentThread().interrupt();
+        } finally {
+            scraperService.releaseLock();
         }
-        log.info("Finished scheduled scrape of all locales in {} seconds", Duration.between(start, Instant.now()).getSeconds());
     }
 
     public enum ExecutionType {
