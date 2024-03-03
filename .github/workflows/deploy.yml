@@ -2,12 +2,12 @@ name: deploy
 
 on:
   push:
-    branches:
-      - 'master'
+    tags:
+      - '*'
 
 jobs:
   deploy-image:
-    runs-on: ubuntu-latest
+    runs-on: arsha
     permissions:
       contents: read
       packages: write
