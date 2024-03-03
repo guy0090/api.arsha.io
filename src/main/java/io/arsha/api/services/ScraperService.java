@@ -24,7 +24,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor(onConstructor = @__(@Inject))
 public class ScraperService {
 
-    private final String hostName = System.getenv("HOSTNAME");
+    private final String hostName;
     private final RestTemplate httpClient;
     private final ScraperDataRedisService redisService;
     private final CodexConfigurationService codexConfigurationService;
