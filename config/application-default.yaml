@@ -19,7 +19,7 @@ docs: "https://documenter.getpostman.com/view/4028519/2s9Y5YRhp4#674b362e-2a27-4
 # Redis config
 cache:
   redis:
-    host: redis.service.arsha
+    host: redis
     port: 6379
   ttl: 30
 

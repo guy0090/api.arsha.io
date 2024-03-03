@@ -85,11 +85,12 @@ public class GlobalExceptionHandler {
         logger.error(message);
     }
 
-    record ExceptionResponse(Integer status, String message, String path, String timestamp, UUID id, Integer code) {
+    public record ExceptionResponse(Integer status, String message, String path, String timestamp, UUID id, Integer code, String host) {
         public static ExceptionResponse fromAbstractException(AbstractException ex, HttpServletRequest req) {
             var timestamp = OffsetDateTime.now().format(DateTimeFormatter.ISO_INSTANT);
+            var host = System.getenv("HOSTNAME");
             return new ExceptionResponse(ex.getStatus(), ex.getMessage(), req.getRequestURI(),
-                    timestamp, UUID.randomUUID(), ex.getExceptionCode().getCode());
+                    timestamp, UUID.randomUUID(), ex.getExceptionCode().getCode(), host);
         }
 
         public static ExceptionResponse fromException(Exception ex, HttpServletRequest req) {
@@ -132,9 +133,10 @@ public class GlobalExceptionHandler {
                 }
             }
 
+            var host = System.getenv("HOSTNAME");
             var timestamp = OffsetDateTime.now().format(DateTimeFormatter.ISO_INSTANT);
             return new ExceptionResponse(status, errorMsg, req.getRequestURI(),
-                    timestamp, UUID.randomUUID(), 0);
+                    timestamp, UUID.randomUUID(), 0, host);
         }
     }
 }
