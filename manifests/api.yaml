@@ -1,0 +1,104 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: arsha
+--- # API Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: api
+  namespace: arsha
+  labels:
+    name: api
+spec:
+  selector:
+    matchLabels:
+      name: api
+  replicas: 4 # Replace with your desired number of replicas
+  template:
+    metadata:
+      labels:
+        name: api
+    spec:
+      containers:
+        - name: api
+          image: ghcr.io/guy0090/bdo-api:latest
+          ports:
+            - containerPort: 3000
+          imagePullPolicy: Always
+--- # Redis Deployment
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: redis
+  namespace: arsha
+  labels:
+    name: redis
+spec:
+  selector:
+    matchLabels:
+      name: redis
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        name: redis
+    spec:
+      containers:
+        - name: redis
+          image: redis:latest
+          ports:
+            - containerPort: 6379
+--- # API Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: api
+  labels:
+    name: api
+  namespace: arsha
+spec:
+  ports:
+    - port: 3000
+      protocol: TCP
+  selector:
+    name: api
+--- # Redis Service
+apiVersion: v1
+kind: Service
+metadata:
+  name: redis
+  labels:
+    name: redis
+  namespace: arsha
+spec:
+  ports:
+    - port: 6379
+      protocol: TCP
+  selector:
+    name: redis
+--- # API Ingress
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: api-ingress
+  namespace: arsha
+  annotations:
+    cert-manager.io/cluster-issuer: lets-encrypt # Replace with your cluster issuer
+spec:
+  ingressClassName: nginx # Replace with your ingress class
+  tls:
+    - hosts:
+        - api.arsha.io # Replace with your domain
+      secretName: api-secret
+  rules:
+    - host: api.arsha.io # Replace with your domain
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: api
+                port:
+                  number: 3000
