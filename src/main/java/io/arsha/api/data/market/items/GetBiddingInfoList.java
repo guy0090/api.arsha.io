@@ -32,8 +32,8 @@ public class GetBiddingInfoList extends ParsedItems<ParsedList> {
                 String[] attributes = item.split("-");
                 var map = new LinkedHashMap<String, Long>();
                 map.put("price", Long.valueOf(attributes[0]));
-                map.put("buyers", Long.valueOf(attributes[1]));
-                map.put("sellers", Long.valueOf(attributes[2]));
+                map.put("sellers", Long.valueOf(attributes[1]));
+                map.put("buyers", Long.valueOf(attributes[2]));
                 orders.add(map);
             });
 

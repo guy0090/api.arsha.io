@@ -7,13 +7,11 @@ RUN chmod 755 ./**
 
 RUN ["./gradlew", "clean", "build", "-x", "test"]
 
-FROM azul/zulu-openjdk-alpine:21-latest AS runner
+FROM cgr.dev/chainguard/jre:latest AS runner
 
-RUN mkdir -p /arsha/config
+COPY --from=builder /app/build/libs/*.jar ~/arsha/app.jar
+COPY --from=builder /app/config/application-default.yaml ~/arsha/config/application-default.yaml
 
-COPY --from=builder /app/build/libs/*.jar /arsha/app.jar
-COPY --from=builder /app/config/application-default.yaml /arsha/config/application-default.yaml
-
-WORKDIR /arsha
+WORKDIR ~/arsha
 
 ENTRYPOINT ["java", "-jar", "app.jar"]
