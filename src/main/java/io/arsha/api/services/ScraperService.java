@@ -98,7 +98,7 @@ public class ScraperService {
 
     /**
      * Scrape is needed if no previous scrape has been done or if the last scrape was more than 6 days ago
-     * A scheduled run is done every Thursday at 1am
+     * A scheduled run is done every Friday at 1am
      */
     public boolean isScrapeNeeded(String locale) {
         var lastScrapedTime = redisService.getLastScrapedTime(locale).orElse(null);

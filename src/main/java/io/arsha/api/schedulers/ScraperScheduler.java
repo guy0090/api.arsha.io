@@ -28,7 +28,7 @@ public class ScraperScheduler {
         scrapeAll(ExecutionType.STARTUP);
     }
 
-    @Scheduled(cron = "0 0 1 * * THU")
+    @Scheduled(cron = "0 0 1 * * FRI")
     private void scrape() {
         scrapeAll(ExecutionType.CRON);
     }
@@ -39,7 +39,7 @@ public class ScraperScheduler {
             var locales = codexConfigurationService.getLocales();
 
             scraperService.setLock();
-            Thread.sleep(500); // Slowest wins lock ownership
+            Thread.sleep(2000); // Slowest wins lock ownership
             if (!scraperService.isLockOwner()) {
                 log.info("Skipping scrape because lock is owned by '{}'", scraperService.getLockOwner().orElse("unknown"));
                 return;
