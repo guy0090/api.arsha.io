@@ -7,7 +7,7 @@ on:
 
 jobs:
   deploy-image:
-    runs-on: arsha
+    runs-on: arsha-runners
     steps:
     - name: Checkout
       uses: actions/checkout@v4
