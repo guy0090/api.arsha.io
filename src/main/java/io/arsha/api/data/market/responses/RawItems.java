@@ -46,8 +46,8 @@ public class RawItems extends MarketResponses<MarketResponse> {
         @Override
         public void serialize(RawItems values, JsonGenerator gen, SerializerProvider provider) throws IOException {
             if (values.size() == 1) {
-                values.get(0).trimDelimiter();
-                gen.writeObject(values.get(0));
+                values.getFirst().trimDelimiter();
+                gen.writeObject(values.getFirst());
             } else {
                 gen.writeStartArray();
                 for (var item : values) {

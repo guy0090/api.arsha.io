@@ -9,6 +9,7 @@ import io.arsha.api.data.market.requests.*;
 import io.arsha.api.exceptions.CannotBeRegisteredException;
 import io.arsha.api.lib.HuffmanDecoder;
 import jakarta.inject.Inject;
+import java.io.IOException;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
@@ -84,7 +85,7 @@ public class MarketRequestService {
         return CompletableFuture.completedFuture(Tuples.of(key, response));
     }
 
-    public String huffmanDecode(byte[] data) throws CannotBeRegisteredException {
+    public String huffmanDecode(byte[] data) throws CannotBeRegisteredException, IOException {
         var testString = new String(data);
         if (testString.contains("resultMsg")) {
             throw new CannotBeRegisteredException(testString);
