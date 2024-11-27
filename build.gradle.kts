@@ -1,21 +1,26 @@
 plugins {
 	java
-	id("org.springframework.boot") version "3.1.6"
-	id("io.spring.dependency-management") version "1.1.4"
+	alias(libs.plugins.spring.boot)
+	alias(libs.plugins.spring.dependencies)
+	alias(libs.plugins.lombok)
 }
 
 group = "io.arsha"
 version = "0.0.1-SNAPSHOT"
 
 java {
-	sourceCompatibility = JavaVersion.VERSION_21
-	targetCompatibility = JavaVersion.VERSION_21
+	sourceCompatibility = JavaVersion.VERSION_23
+	targetCompatibility = JavaVersion.VERSION_23
 }
 
 configurations {
 	compileOnly {
 		extendsFrom(configurations.annotationProcessor.get())
 	}
+}
+
+tasks.withType<JavaCompile> {
+	options.compilerArgs.add("-parameters")
 }
 
 repositories {
@@ -27,17 +32,22 @@ dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-redis-reactive")
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-starter-web")
+	implementation("org.springframework.boot:spring-boot-starter-websocket")
 	implementation("org.springframework.boot:spring-boot-starter-validation")
-	implementation("org.apache.commons:commons-lang3:3.12.0")
-	implementation("jakarta.inject:jakarta.inject-api:2.0.1.MR")
-	implementation("org.apache.httpcomponents.client5:httpclient5:5.3-alpha1")
-	implementation("org.jsoup:jsoup:1.16.1")
-	implementation("org.thshsh:struct:2.2.0")
-	compileOnly("org.projectlombok:lombok:1.18.30")
+	implementation(libs.jakarta.inject)
+	implementation(libs.apache.lang3)
+	implementation(libs.apache.http5)
+	implementation(libs.jsoup)
+	implementation(libs.struct) {
+		exclude("commons-io", "commons-io")
+	}
+	implementation(libs.commons.io)
+
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
 	// developmentOnly("org.springframework.boot:spring-boot-docker-compose")
+
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
-	annotationProcessor("org.projectlombok:lombok:1.18.30")
+
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
 	testImplementation("io.projectreactor:reactor-test")
 	testImplementation("org.springframework.security:spring-security-test")

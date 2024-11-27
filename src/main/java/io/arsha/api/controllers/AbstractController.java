@@ -146,7 +146,7 @@ public abstract class AbstractController<T extends IMarketResponse> {
 
         var stringList = ids.stream().map(String::valueOf).toList();
         if (stringList.size() == 1) {
-            query = stringList.get(0);
+            query = stringList.getFirst();
         } else {
             query = String.join(",", stringList);
         }

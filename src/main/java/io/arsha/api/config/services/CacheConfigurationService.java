@@ -16,7 +16,7 @@ public class CacheConfigurationService {
         return cacheProperties.getRedis();
     }
 
-    public Integer getTtl() {
+    public Long getTtl() {
         return cacheProperties.getTtl();
     }
 

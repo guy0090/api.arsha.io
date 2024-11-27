@@ -2,11 +2,9 @@ package io.arsha.api.data.market.common;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.ToString;
 
-@ToString
-@AllArgsConstructor
 @Getter
+@AllArgsConstructor
 public enum MarketEndpoint {
 
     /**

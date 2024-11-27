@@ -7,7 +7,7 @@ import lombok.ToString;
 import java.util.Arrays;
 import java.util.stream.Collectors;
 
-@ToString
+@Getter
 @AllArgsConstructor
 public enum GameRegion {
 
@@ -26,7 +26,6 @@ public enum GameRegion {
     CONSOLE_EU("console_eu"),
     CONSOLE_ASIA("console_asia");
 
-    @Getter
     final String region;
 
     public static final String REGIONS = Arrays.stream(GameRegion.values())
@@ -39,6 +38,7 @@ public enum GameRegion {
                 return gameRegion;
             }
         }
+
         return null;
     }
 }

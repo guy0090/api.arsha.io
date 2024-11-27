@@ -96,12 +96,12 @@ public class MarketService {
     // Special case to handle category requests and to allow grabbing all subcategories if not explicitly specified
     public RawItems requestCategoryResult(List<CacheCompositeKey> keys, boolean combinedResult) throws MarketRequestException {
         if (keys.size() == 1) {
-            var result = marketRedisService.get(keys.get(0));
+            var result = marketRedisService.get(keys.getFirst());
             if (result.isPresent()) return new RawItems(result.get());
 
-            var future = marketRequestService.request(keys.get(0)).join();
-            var response = future.getT2().orElseThrow(() -> new MarketRequestException(keys.get(0).getPrimary()));
-            marketRedisService.setDefaultExpireAsync(keys.get(0), response);
+            var future = marketRequestService.request(keys.getFirst()).join();
+            var response = future.getT2().orElseThrow(() -> new MarketRequestException(keys.getFirst().getPrimary()));
+            marketRedisService.setDefaultExpireAsync(keys.getFirst(), response);
             return new RawItems(response);
         }
 
@@ -115,14 +115,14 @@ public class MarketService {
     }
 
     public <R extends ParsedItems<?>> R requestParsedItems(List<CacheCompositeKey> keys, String lang) throws AbstractException {
-        var result = ParsedItems.<R>getParsingClass(keys.get(0).getEndpoint());
+        var result = ParsedItems.<R>getParsingClass(keys.getFirst().getEndpoint());
         var locale = lang == null ? "en" : lang;
         var ids = extractIdsFromCacheKeys(keys);
 
-        var endpoint = keys.get(0).getEndpoint();
+        var endpoint = keys.getFirst().getEndpoint();
         var responses = switch (endpoint) {
             case MARKET_LIST -> requestCategoryResult(keys, false); // can't re-assign sub category otherwise
-            case MARKET_SEARCH_LIST -> requestSearchResult(keys.get(0));
+            case MARKET_SEARCH_LIST -> requestSearchResult(keys.getFirst());
             default -> requestMany(keys);
         };
 

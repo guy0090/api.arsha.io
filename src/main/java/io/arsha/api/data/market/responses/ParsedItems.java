@@ -47,7 +47,7 @@ public abstract class ParsedItems<T extends ParsedList> extends MarketResponses<
                     .findFirst()
                     .orElseThrow();
 
-            return (R) constructor.newInstance(null);
+            return (R) constructor.newInstance((Object) null);
         } catch (Exception e) {
             throw new InvalidParsingClassException(e.getMessage());
         }
@@ -63,21 +63,21 @@ public abstract class ParsedItems<T extends ParsedList> extends MarketResponses<
                 return;
             }
 
-            var isSingleton = values.size() == 1 && values.get(0).size() == 1;
+            var isSingleton = values.size() == 1 && values.getFirst().size() == 1;
             var onlySingletons = values.stream().allMatch(list -> list.size() == 1);
 
             if (isSingleton) {
-                gen.writeObject(values.get(0).get(0));
+                gen.writeObject(values.getFirst().getFirst());
             } else if (values.size() == 1) {
                 gen.writeStartArray();
-                for (var item : values.get(0)) {
+                for (var item : values.getFirst()) {
                     gen.writeObject(item);
                 }
                 gen.writeEndArray();
             } else if (onlySingletons) {
                 gen.writeStartArray();
                 for (var item : values) {
-                    gen.writeObject(item.get(0));
+                    gen.writeObject(item.getFirst());
                 }
                 gen.writeEndArray();
             } else {

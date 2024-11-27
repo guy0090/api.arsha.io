@@ -9,12 +9,17 @@ import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import io.arsha.api.data.market.common.GameRegion;
 import io.arsha.api.data.market.common.MarketEndpoint;
 import jakarta.annotation.Nullable;
-import lombok.*;
-import lombok.extern.jackson.Jacksonized;
-
 import java.io.IOException;
+import java.io.Serializable;
 import java.util.List;
 import java.util.stream.Stream;
+import lombok.Builder;
+import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.NonNull;
+import lombok.SneakyThrows;
+import lombok.ToString;
+import lombok.extern.jackson.Jacksonized;
 
 @Getter
 @ToString
@@ -22,18 +27,20 @@ import java.util.stream.Stream;
 @EqualsAndHashCode
 @Builder(toBuilder = true)
 @JsonSerialize(using = CacheCompositeKey.Serializer.class)
-public class CacheCompositeKey {
-    @Nullable String search; // Search query
-    @Nullable Long primary; // Alias for item or category ID
-    @Nullable Long secondary; // Alias for item sub ID or sub-category ID
-    @NonNull GameRegion region;
-    @NonNull MarketEndpoint endpoint;
+public class CacheCompositeKey implements Serializable {
 
-    @SneakyThrows
-    public byte[] serialize() {
-        var mapper = new ObjectMapper();
-        return mapper.writeValueAsBytes(this);
-    }
+    private static final ObjectMapper mapper = new ObjectMapper();
+
+    @Nullable
+    String search; // Search query
+    @Nullable
+    Long primary; // Alias for item or category ID
+    @Nullable
+    Long secondary; // Alias for item sub ID or sub-category ID
+    @NonNull
+    GameRegion region;
+    @NonNull
+    MarketEndpoint endpoint;
 
     public static CacheCompositeKey createCombinedSearchKey(List<CacheCompositeKey> keys) {
         if (keys.stream().anyMatch(k -> k.getSearch() == null)) {
@@ -41,10 +48,15 @@ public class CacheCompositeKey {
         }
 
         return CacheCompositeKey.builder()
-                .search(String.join(",", keys.stream().map(CacheCompositeKey::getSearch).toList()))
-                .region(keys.get(0).getRegion())
-                .endpoint(MarketEndpoint.MARKET_SEARCH_LIST)
-                .build();
+            .search(String.join(",", keys.stream().map(CacheCompositeKey::getSearch).toList()))
+            .region(keys.getFirst().getRegion())
+            .endpoint(MarketEndpoint.MARKET_SEARCH_LIST)
+            .build();
+    }
+
+    @SneakyThrows
+    public byte[] serialize() {
+        return mapper.writeValueAsBytes(this);
     }
 
     @JsonIgnore
@@ -60,8 +72,10 @@ public class CacheCompositeKey {
     }
 
     protected static class Serializer extends JsonSerializer<CacheCompositeKey> {
+
         @Override
-        public void serialize(CacheCompositeKey value, JsonGenerator gen, SerializerProvider serializers) throws IOException {
+        public void serialize(CacheCompositeKey value, JsonGenerator gen,
+            SerializerProvider serializers) throws IOException {
             gen.writeStartObject();
 
             if (value.getSearch() != null) {

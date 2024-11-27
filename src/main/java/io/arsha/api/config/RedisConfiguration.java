@@ -7,27 +7,33 @@ import io.arsha.api.data.scraper.ScrapedItem;
 import io.arsha.api.lib.CacheCompositeKeyRedisSerializer;
 import io.arsha.api.lib.MarketResponseValueRedisSerializer;
 import io.arsha.api.lib.ScrapedItemValueRedisSerializer;
-import org.springframework.beans.factory.annotation.Qualifier;
+import java.time.Duration;
+import java.util.HashMap;
 import org.springframework.cache.CacheManager;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.cache.RedisCacheConfiguration;
 import org.springframework.data.redis.cache.RedisCacheManager;
+import org.springframework.data.redis.connection.MessageListener;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
 import org.springframework.data.redis.connection.RedisStandaloneConfiguration;
 import org.springframework.data.redis.connection.lettuce.LettuceConnectionFactory;
 import org.springframework.data.redis.core.ReactiveRedisTemplate;
+import org.springframework.data.redis.core.RedisKeyValueAdapter.EnableKeyspaceEvents;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.data.redis.listener.PatternTopic;
+import org.springframework.data.redis.listener.RedisMessageListenerContainer;
+import org.springframework.data.redis.listener.adapter.MessageListenerAdapter;
+import org.springframework.data.redis.repository.configuration.EnableRedisRepositories;
 import org.springframework.data.redis.serializer.RedisSerializationContext;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
 
-import java.time.Duration;
-import java.util.HashMap;
-
 @Configuration
 @EnableCaching
+@EnableRedisRepositories(enableKeyspaceEvents = EnableKeyspaceEvents.ON_STARTUP)
 public class RedisConfiguration {
+
     private RedisCacheConfiguration createCacheConfiguration(Long timeoutInMillis) {
         var ttl = timeoutInMillis <= 0 ? Duration.ZERO : Duration.ofMillis(timeoutInMillis);
         return RedisCacheConfiguration.defaultCacheConfig().entryTtl(ttl);
@@ -49,20 +55,22 @@ public class RedisConfiguration {
     }
 
     @Bean
-    public ReactiveRedisTemplate<CacheCompositeKey, MarketResponse> reactiveMarketRedisTemplate(LettuceConnectionFactory lettuceConFactory) {
+    public ReactiveRedisTemplate<CacheCompositeKey, MarketResponse> reactiveMarketRedisTemplate(
+        LettuceConnectionFactory lettuceConFactory) {
         var serializationContext = RedisSerializationContext
-                .<CacheCompositeKey, MarketResponse>newSerializationContext(new CacheCompositeKeyRedisSerializer())
-                .key(new CacheCompositeKeyRedisSerializer())
-                .hashKey(new CacheCompositeKeyRedisSerializer())
-                .value(new MarketResponseValueRedisSerializer())
-                .hashValue(new MarketResponseValueRedisSerializer())
-                .build();
+            .<CacheCompositeKey, MarketResponse>newSerializationContext(
+                new CacheCompositeKeyRedisSerializer())
+            .key(new CacheCompositeKeyRedisSerializer())
+            .hashKey(new CacheCompositeKeyRedisSerializer())
+            .value(new MarketResponseValueRedisSerializer())
+            .hashValue(new MarketResponseValueRedisSerializer())
+            .build();
         return new ReactiveRedisTemplate<>(lettuceConFactory, serializationContext);
     }
 
     @Bean
-    @Qualifier("marketRedisTemplate")
-    public RedisTemplate<CacheCompositeKey, MarketResponse> marketRedisTemplate(RedisConnectionFactory cf) {
+    public RedisTemplate<CacheCompositeKey, MarketResponse> marketRedisTemplate(
+        RedisConnectionFactory cf) {
         var template = new RedisTemplate<CacheCompositeKey, MarketResponse>();
         template.setConnectionFactory(cf);
         template.setHashKeySerializer(new CacheCompositeKeyRedisSerializer());
@@ -73,7 +81,6 @@ public class RedisConfiguration {
     }
 
     @Bean
-    @Qualifier("dbRedisTemplate")
     public RedisTemplate<String, ScrapedItem> dbRedisTemplate(RedisConnectionFactory cf) {
         var template = new RedisTemplate<String, ScrapedItem>();
         template.setConnectionFactory(cf);
@@ -84,25 +91,27 @@ public class RedisConfiguration {
         return template;
     }
 
-    // @Bean
-    // @Qualifier("stringRedisTemplate")
-    // public RedisTemplate<String, String> stringRedisTemplate(RedisConnectionFactory cf) {
-    //     var template = new RedisTemplate<String, String>();
-    //     template.setConnectionFactory(cf);
-    //     template.setHashKeySerializer(new StringRedisSerializer());
-    //     template.setKeySerializer(new StringRedisSerializer());
-    //     template.setValueSerializer(new StringRedisSerializer());
-    //     template.setHashValueSerializer(new StringRedisSerializer());
-    //     return template;
-    // }
+    @Bean
+    RedisMessageListenerContainer container(RedisConnectionFactory connectionFactory,
+        MessageListenerAdapter listenerAdapter) {
+        RedisMessageListenerContainer container = new RedisMessageListenerContainer();
+        container.setConnectionFactory(connectionFactory);
+        container.addMessageListener(listenerAdapter, new PatternTopic("__keyevent@*__:expired"));
+        return container;
+    }
 
     @Bean
-    public CacheManager cacheManager(RedisConnectionFactory rCf, CacheConfigurationService properties) {
+    MessageListenerAdapter listenerAdapter(MessageListener listener) {
+        return new MessageListenerAdapter(listener);
+    }
+
+    @Bean
+    public CacheManager cacheManager(RedisConnectionFactory rCf) {
         HashMap<String, RedisCacheConfiguration> cacheConfigurations = new HashMap<>();
 
         return RedisCacheManager.builder(rCf)
-                .cacheDefaults(createCacheConfiguration(0L))
-                .withInitialCacheConfigurations(cacheConfigurations)
-                .build();
+            .cacheDefaults(createCacheConfiguration(0L))
+            .withInitialCacheConfigurations(cacheConfigurations)
+            .build();
     }
 }

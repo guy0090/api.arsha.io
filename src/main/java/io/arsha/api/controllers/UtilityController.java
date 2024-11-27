@@ -44,7 +44,7 @@ public class UtilityController {
             if (items.size() != 1) {
                 return mapper.writeValueAsString(items);
             } else {
-                return mapper.writeValueAsString(items.get(0));
+                return mapper.writeValueAsString(items.getFirst());
             }
         }
 

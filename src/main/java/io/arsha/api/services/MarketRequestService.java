@@ -5,12 +5,20 @@ import io.arsha.api.data.CacheCompositeKey;
 import io.arsha.api.data.market.MarketRequest;
 import io.arsha.api.data.market.MarketResponse;
 import io.arsha.api.data.market.common.MarketConstants;
-import io.arsha.api.data.market.requests.*;
+import io.arsha.api.data.market.requests.GetBiddingInfoListBody;
+import io.arsha.api.data.market.requests.GetMarketPriceInfoBody;
+import io.arsha.api.data.market.requests.GetWorldMarketHotListBody;
+import io.arsha.api.data.market.requests.GetWorldMarketListBody;
+import io.arsha.api.data.market.requests.GetWorldMarketSearchListBody;
+import io.arsha.api.data.market.requests.GetWorldMarketSubListBody;
+import io.arsha.api.data.market.requests.GetWorldMarketWaitListBody;
+import io.arsha.api.data.market.requests.MarketRequestBody;
 import io.arsha.api.exceptions.CannotBeRegisteredException;
 import io.arsha.api.lib.HuffmanDecoder;
-import jakarta.inject.Inject;
 import java.io.IOException;
-import lombok.AllArgsConstructor;
+import java.util.Optional;
+import java.util.concurrent.CompletableFuture;
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
@@ -20,15 +28,12 @@ import org.springframework.web.client.RestTemplate;
 import reactor.util.function.Tuple2;
 import reactor.util.function.Tuples;
 
-import java.util.Optional;
-import java.util.concurrent.CompletableFuture;
-
 /**
  * Service for sending requests to the market API and returning responses as JSON strings.
  */
 @Slf4j
 @Service
-@AllArgsConstructor(onConstructor = @__(@Inject))
+@RequiredArgsConstructor
 public class MarketRequestService {
 
     private final RestTemplate client;
@@ -38,7 +43,8 @@ public class MarketRequestService {
     private Optional<MarketResponse> sendRequest(MarketRequest marketRequest) {
         var region = marketConfigurationService.getMarketRegion(marketRequest.region());
         var endpoint = marketRequest.endpoint();
-        var url = String.format("https://%s/%s/%s", region.getUrl(), MarketConstants.BASE_PATH, endpoint.getPath());
+        var url = String.format("https://%s/%s/%s", region.getUrl(), MarketConstants.BASE_PATH,
+            endpoint.getPath());
 
         var headers = new HttpHeaders();
         headers.set(HttpHeaders.USER_AGENT, MarketConstants.USER_AGENT);
@@ -64,7 +70,8 @@ public class MarketRequestService {
     }
 
     @Async("asyncExecutor")
-    public CompletableFuture<Tuple2<CacheCompositeKey, Optional<MarketResponse>>> request(CacheCompositeKey key) {
+    public CompletableFuture<Tuple2<CacheCompositeKey, Optional<MarketResponse>>> request(
+        CacheCompositeKey key) {
         var primary = key.getPrimary();
         var secondary = key.getSecondary();
         var region = key.getRegion();

@@ -1,4 +1,4 @@
-FROM azul/zulu-openjdk-alpine:21-latest AS builder
+FROM azul/zulu-openjdk-alpine:23-latest AS builder
 
 COPY .. /app
 WORKDIR /app
@@ -9,9 +9,9 @@ RUN ["./gradlew", "clean", "build", "-x", "test"]
 
 FROM cgr.dev/chainguard/jre:latest AS runner
 
-COPY --from=builder /app/build/libs/*.jar ~/arsha/app.jar
-COPY --from=builder /app/config/application-default.yaml ~/arsha/config/application-default.yaml
+COPY --from=builder /app/build/libs/*.jar /arsha/app.jar
+COPY --from=builder /app/config/application-default.yaml /arsha/config/application-default.yaml
 
-WORKDIR ~/arsha
+WORKDIR /arsha
 
 ENTRYPOINT ["java", "-jar", "app.jar"]
