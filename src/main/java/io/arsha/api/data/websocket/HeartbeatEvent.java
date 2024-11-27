@@ -4,7 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.Getter;
 
 @Getter
-@JsonIgnoreProperties("timestamp")
+@JsonIgnoreProperties({"timestamp", "source"})
 public class HeartbeatEvent extends WebSocketEvent {
     private final String type = "heartbeat";
     private final String host;
