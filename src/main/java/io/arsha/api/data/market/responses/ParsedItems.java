@@ -47,7 +47,7 @@ public abstract class ParsedItems<T extends ParsedList> extends MarketResponses<
                     .findFirst()
                     .orElseThrow();
 
-            return (R) constructor.newInstance((Object) null);
+            return (R) constructor.newInstance();
         } catch (Exception e) {
             throw new InvalidParsingClassException(e.getMessage());
         }
