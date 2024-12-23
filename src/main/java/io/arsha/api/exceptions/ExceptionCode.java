@@ -19,6 +19,7 @@ public enum ExceptionCode {
     FAILED_MARKET_REQUEST(100),
     INVALID_MARKET_ITEM(101),
     INVALID_MARKET_CATEGORY(102),
+    INVALID_MARKET_RESPONSE_BODY(103),
 
     // Request Validation
     ID_SID_MISMATCH(200),

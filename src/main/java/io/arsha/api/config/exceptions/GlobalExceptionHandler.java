@@ -51,6 +51,11 @@ public class GlobalExceptionHandler {
     public ExceptionResponse handleAllExceptions(Exception ex, HttpServletRequest req, HttpServletResponse res) {
         res.setStatus(500);
 
+        // Unchecked exceptions
+        if (ex.getCause() instanceof AbstractException ab) {
+            return handleCustomExceptions(ab, req, res);
+        }
+
         var response = ExceptionResponse.fromException(ex, req);
         logExceptionDetails(req, ex, response.id);
         return response;
@@ -119,11 +124,7 @@ public class GlobalExceptionHandler {
                     errorMsg = String.format("Missing required parameter '%s'", missingEx.getParameterName());
                     status = 400;
                 }
-                case MethodArgumentNotValidException i1 -> {
-                    errorMsg = "Invalid request body.";
-                    status = 400;
-                }
-                case HttpMessageNotReadableException i2 -> {
+                case MethodArgumentNotValidException _, HttpMessageNotReadableException _ -> {
                     errorMsg = "Invalid request body.";
                     status = 400;
                 }
@@ -133,7 +134,7 @@ public class GlobalExceptionHandler {
                 }
             }
 
-            var host = System.getenv("HOSTNAME");
+            var host = Optional.ofNullable(System.getenv("HOSTNAME")).orElse("no_host");
             var timestamp = OffsetDateTime.now().format(DateTimeFormatter.ISO_INSTANT);
             return new ExceptionResponse(status, errorMsg, req.getRequestURI(),
                     timestamp, UUID.randomUUID(), 0, host);

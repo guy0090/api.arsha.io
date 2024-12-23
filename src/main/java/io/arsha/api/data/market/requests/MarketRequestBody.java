@@ -8,10 +8,4 @@ public abstract class MarketRequestBody {
 
     @JsonProperty
     private Integer keyType = 0;
-
-    // public BodyInserter<MarketRequestBody, ReactiveHttpOutputMessage> getInsertable() {
-    //     return BodyInserters.fromValue(this);
-    // }
-
-
 }

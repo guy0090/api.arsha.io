@@ -14,17 +14,20 @@ import io.arsha.api.data.market.requests.GetWorldMarketSubListBody;
 import io.arsha.api.data.market.requests.GetWorldMarketWaitListBody;
 import io.arsha.api.data.market.requests.MarketRequestBody;
 import io.arsha.api.exceptions.CannotBeRegisteredException;
+import io.arsha.api.exceptions.MarketResponseBodyException;
 import io.arsha.api.lib.HuffmanDecoder;
 import java.io.IOException;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import lombok.RequiredArgsConstructor;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
+import org.springframework.web.client.UnknownContentTypeException;
 import reactor.util.function.Tuple2;
 import reactor.util.function.Tuples;
 
@@ -40,6 +43,7 @@ public class MarketRequestService {
     private final MarketConfigurationService marketConfigurationService;
     private final HuffmanDecoder huffmanDecoder;
 
+    @SneakyThrows
     private Optional<MarketResponse> sendRequest(MarketRequest marketRequest) {
         var region = marketConfigurationService.getMarketRegion(marketRequest.region());
         var endpoint = marketRequest.endpoint();
@@ -64,7 +68,10 @@ public class MarketRequestService {
         } catch (CannotBeRegisteredException e) {
             return Optional.of(e.getResponse());
         } catch (Exception e) {
-            log.error("Error sending request to {}", url, e);
+            log.debug("Error sending request to {}: {}", url, e.getMessage());
+            if (e instanceof MarketResponseBodyException || e instanceof UnknownContentTypeException) {
+                throw new MarketResponseBodyException();
+            }
             return Optional.empty();
         }
     }
@@ -92,11 +99,15 @@ public class MarketRequestService {
         return CompletableFuture.completedFuture(Tuples.of(key, response));
     }
 
-    public String huffmanDecode(byte[] data) throws CannotBeRegisteredException, IOException {
+    public String huffmanDecode(byte[] data) throws CannotBeRegisteredException, IOException, MarketResponseBodyException {
         var testString = new String(data);
         if (testString.contains("resultMsg")) {
             throw new CannotBeRegisteredException(testString);
         }
+
+        // Starts with HTML opening tag, probably blocked by Imperva
+        if (testString.startsWith("<html")) throw new MarketResponseBodyException();
+
         return huffmanDecoder.decode(data);
     }
 }
