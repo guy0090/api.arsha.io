@@ -86,6 +86,14 @@
       {
         "id": "21",
         "name": "Hammer"
+      },
+      {
+        "id": "22",
+        "name": "Hwando"
+      },
+      {
+        "id": "23",
+        "name": "Revolvers"
       }
     ]
   },
@@ -168,6 +176,14 @@
       {
         "id": "19",
         "name": "Gravity Core"
+      },
+      {
+        "id": "20",
+        "name": "Gombangdae"
+      },
+      {
+        "id": "21",
+        "name": "Shotgun"
       }
     ]
   },
@@ -278,6 +294,14 @@
       {
         "id": "27",
         "name": "Sledgehammer"
+      },
+      {
+        "id": "28",
+        "name": "Enlightened Blade"
+      },
+      {
+        "id": "29",
+        "name": "Lil' Devil"
       }
     ]
   },
@@ -382,6 +406,10 @@
       {
         "id": "2",
         "name": "Upgrade"
+      },
+      {
+        "id": "3",
+        "name": "Reforge"
       }
     ]
   },
