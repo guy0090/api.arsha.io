@@ -1,16 +1,37 @@
 plugins {
 	java
+	alias(libs.plugins.versions)
+	alias(libs.plugins.version.catalog.update)
+	alias(libs.plugins.researchgate.release)
 	alias(libs.plugins.spring.boot)
 	alias(libs.plugins.spring.dependencies)
-	alias(libs.plugins.lombok)
 }
 
 group = "io.arsha"
-version = "0.0.1-SNAPSHOT"
+
+release {
+	failOnCommitNeeded = true
+	failOnPublishNeeded = false
+	failOnSnapshotDependencies = false
+	failOnUnversionedFiles = true
+	failOnUpdateNeeded = true
+	revertOnFail = true
+	pushReleaseVersionBranch = "master"
+	snapshotSuffix = "-SNAPSHOT"
+	versionPropertyFile = "gradle.properties"
+	preTagCommitMessage = "Released:"
+	newVersionCommitMessage = "New Development Version:"
+
+	git {
+		requireBranch.set("develop")
+		pushToRemote.set("origin")
+	}
+}
 
 java {
-	sourceCompatibility = JavaVersion.VERSION_23
-	targetCompatibility = JavaVersion.VERSION_23
+	toolchain {
+		languageVersion = JavaLanguageVersion.of(24)
+	}
 }
 
 configurations {
@@ -19,17 +40,12 @@ configurations {
 	}
 }
 
-tasks.withType<JavaCompile> {
-	options.compilerArgs.add("-parameters")
-}
-
 repositories {
 	mavenCentral()
 }
 
 dependencies {
 	implementation("org.springframework.boot:spring-boot-starter-data-redis")
-	implementation("org.springframework.boot:spring-boot-starter-data-redis-reactive")
 	implementation("org.springframework.boot:spring-boot-starter-security")
 	implementation("org.springframework.boot:spring-boot-starter-web")
 	implementation("org.springframework.boot:spring-boot-starter-websocket")
@@ -42,15 +58,20 @@ dependencies {
 		exclude("commons-io", "commons-io")
 	}
 	implementation(libs.commons.io)
+	implementation(libs.redisson)
 
 	developmentOnly("org.springframework.boot:spring-boot-devtools")
-	// developmentOnly("org.springframework.boot:spring-boot-docker-compose")
+	developmentOnly("org.springframework.boot:spring-boot-docker-compose")
 
+	compileOnly(libs.lombok)
+	annotationProcessor(libs.lombok)
 	annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
 	testImplementation("org.springframework.boot:spring-boot-starter-test")
-	testImplementation("io.projectreactor:reactor-test")
 	testImplementation("org.springframework.security:spring-security-test")
+
+	testCompileOnly(libs.lombok)
+	testAnnotationProcessor(libs.lombok)
 }
 
 tasks.getByName<Jar>("jar") {

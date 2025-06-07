@@ -1,12 +1,6 @@
 package io.arsha.api.services;
 
 import io.arsha.api.data.scraper.ScrapedItem;
-import jakarta.inject.Inject;
-import lombok.RequiredArgsConstructor;
-import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Service;
-
 import java.time.Instant;
 import java.time.OffsetDateTime;
 import java.time.ZoneId;
@@ -15,9 +9,13 @@ import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.CompletableFuture;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
+import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.stereotype.Service;
 
 @Service
-@RequiredArgsConstructor(onConstructor = @__(@Inject))
+@RequiredArgsConstructor
 public class ScraperDataRedisService {
 
     static final String LAST_SCRAPE_TIME_KEY = "lastScrapedTime";
@@ -25,18 +23,6 @@ public class ScraperDataRedisService {
 
     private final RedisTemplate<String, ScrapedItem> redisTemplate;
     private final RedisTemplate<String, String> redisStringTemplate;
-
-    public void setLock(String lockOwner) {
-        redisStringTemplate.opsForValue().set(LOCK_KEY, lockOwner);
-    }
-
-    public void releaseLock() {
-        redisStringTemplate.delete(LOCK_KEY);
-    }
-
-    public Optional<String> getLockOwner() {
-        return Optional.ofNullable(redisStringTemplate.opsForValue().get(LOCK_KEY));
-    }
 
     public void saveLastScrapedTime(String locale) {
         redisStringTemplate.<String, String>opsForHash().put(LAST_SCRAPE_TIME_KEY, locale, String.valueOf(System.currentTimeMillis()));
@@ -69,13 +55,7 @@ public class ScraperDataRedisService {
     }
 
     @Async("asyncExecutor")
-    public CompletableFuture<?> putAsync(String locale, Long id, ScrapedItem value) {
-        put(locale, id, value);
-        return CompletableFuture.completedFuture(null);
-    }
-
-    @Async("asyncExecutor")
-    public CompletableFuture<?> putAllAsync(String locale, List<ScrapedItem> items) {
+    public CompletableFuture<Void> putAllAsync(String locale, List<ScrapedItem> items) {
         putAll(locale, items);
         return CompletableFuture.completedFuture(null);
     }

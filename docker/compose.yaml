@@ -1,0 +1,44 @@
+name: arsha
+services:
+  caddy:
+    image: caddy:2.10.0-alpine
+    networks:
+      arsha:
+        aliases:
+        - caddy.service.arsha
+        - caddy
+    ports:
+    - '80:80'
+    - '443:443'
+    volumes:
+    - ./caddy:/etc/caddy
+    - caddy-data:/data
+    - caddy-config:/config
+    depends_on:
+    - api
+  api:
+    image: ghcr.io/guy0090/bdo-api:latest
+    networks:
+      arsha:
+        aliases:
+        - api.service.arsha
+        - api
+    depends_on:
+    - redis
+  redis:
+    image: redis:8-alpine
+    networks:
+      arsha:
+        aliases:
+        - redis.service.arsha
+        - redis
+    volumes:
+    - redis-data:/data
+
+networks:
+    arsha:
+
+volumes:
+    redis-data:
+    caddy-data:
+    caddy-config:

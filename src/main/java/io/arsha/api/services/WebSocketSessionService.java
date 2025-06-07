@@ -6,14 +6,14 @@ import java.util.Set;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.stream.Collectors;
 import org.springframework.stereotype.Service;
-import org.springframework.web.socket.WebSocketSession;
+import org.springframework.web.socket.handler.ConcurrentWebSocketSessionDecorator;
 
 @Service
 public class WebSocketSessionService {
 
     private final Map<String, SessionHolder> sessions = new ConcurrentHashMap<>();
 
-    public void addSession(WebSocketSession session) {
+    public void addSession(ConcurrentWebSocketSessionDecorator session) {
         var id = session.getId();
         sessions.put(id, new SessionHolder(session, LocalDateTime.now()));
     }
@@ -22,11 +22,11 @@ public class WebSocketSessionService {
         sessions.remove(sessionId);
     }
 
-    public Set<WebSocketSession> getSessions() {
+    public Set<ConcurrentWebSocketSessionDecorator> getSessions() {
         return sessions.values().stream().map(SessionHolder::session).collect(Collectors.toSet());
     }
 
-    public record SessionHolder(WebSocketSession session, LocalDateTime added) {
+    public record SessionHolder(ConcurrentWebSocketSessionDecorator session, LocalDateTime added) {
 
     }
 }

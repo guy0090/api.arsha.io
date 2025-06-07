@@ -28,15 +28,14 @@ endpoints is available on [Postman](https://documenter.getpostman.com/view/40285
 You can host your own instance by cloning this repository and running a few commands. The only requirement is
 that you have Docker installed on your machine. https://docs.docker.com/get-docker/
 
-Ideally you would also have it hosted behind a reverse proxy such as Nginx or Caddy, but this is not a requirement. 
-- [nginx example](nginx/api.example.com)
+Ideally you would also have it hosted behind a reverse proxy such as Nginx or Caddy, but this is not a requirement.
 
 ### Docker Compose
 
 #### Steps:
 ```bash
 git clone https://github.com/guy0090/api.arsha.io.git
-cd api.arsha.io
+cd api.arsha.io/docker
 
 # Optionally, you can change the port (default: 3000) that the API runs on by editing the exposed port in compose.yaml
 vi compose.yaml

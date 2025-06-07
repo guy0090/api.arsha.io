@@ -1,10 +1,15 @@
 package io.arsha.api.config.exceptions;
 
 import io.arsha.api.exceptions.AbstractException;
-import jakarta.inject.Inject;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.ConstraintViolationException;
+import java.lang.reflect.Method;
+import java.time.OffsetDateTime;
+import java.time.format.DateTimeFormatter;
+import java.util.Objects;
+import java.util.Optional;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
@@ -22,16 +27,9 @@ import org.springframework.web.method.HandlerMethod;
 import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.RequestMappingHandlerMapping;
 
-import java.lang.reflect.Method;
-import java.time.OffsetDateTime;
-import java.time.format.DateTimeFormatter;
-import java.util.Objects;
-import java.util.Optional;
-import java.util.UUID;
-
 @Slf4j
 @RestControllerAdvice
-@RequiredArgsConstructor(onConstructor = @__(@Inject))
+@RequiredArgsConstructor
 public class GlobalExceptionHandler {
 
     private final ApplicationContext applicationContext;

@@ -2,12 +2,11 @@ package io.arsha.api.config.services;
 
 import io.arsha.api.config.properties.MarketProperties;
 import io.arsha.api.data.market.common.GameRegion;
-import jakarta.inject.Inject;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
-@RequiredArgsConstructor(onConstructor = @__(@Inject))
+@RequiredArgsConstructor
 public class MarketConfigurationService {
 
     private final MarketProperties marketProperties;

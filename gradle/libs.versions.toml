@@ -1,23 +1,31 @@
 [versions]
-spring-boot = "3.4.0"
-spring-dependencies = "1.1.4"
-lombok = "8.11"
 apache-commons-lang3 = "3.17.0"
+apache-http5 = "5.5"
+commons-io = "2.19.0"
 jakarta-inject = "2.0.1"
-apache-http5 = "5.4.1"
-jsoup = "1.18.1"
+jsoup = "1.20.1"
+lombok = "1.18.38"
+redisson = "3.49.0"
+researchgate = "3.1.0"
+spring-boot = "3.5.0"
+spring-dependencies = "1.1.7"
 struct = "2.2.0"
-commons-io = "2.18.0"
+version-catalog = "1.0.0"
+versions = "0.52.0"
 
 [plugins]
+researchgate-release = { id = "net.researchgate.release", version.ref = "researchgate" }
 spring-boot = { id = "org.springframework.boot", version.ref = "spring-boot" }
 spring-dependencies = { id = "io.spring.dependency-management", version.ref = "spring-dependencies" }
-lombok = { id = "io.freefair.lombok", version.ref = "lombok" }
+version-catalog-update = { id = "nl.littlerobots.version-catalog-update", version.ref = "version-catalog" }
+versions = { id = "com.github.ben-manes.versions", version.ref = "versions" }
 
 [libraries]
-apache-lang3 = { group = "org.apache.commons", name = "commons-lang3", version.ref = "apache-commons-lang3" }
-jakarta-inject = { group = "jakarta.inject", name = "jakarta.inject-api", version.ref = "jakarta-inject" }
-apache-http5 = { group = "org.apache.httpcomponents.client5", name = "httpclient5", version.ref = "apache-http5" }
-jsoup = { group = "org.jsoup", name = "jsoup", version.ref = "jsoup" }
-struct = { group = "org.thshsh", name = "struct", version.ref = "struct" }
-commons-io = { group = "commons-io", name = "commons-io", version.ref = "commons-io" }
+apache-http5 = { module = "org.apache.httpcomponents.client5:httpclient5", version.ref = "apache-http5" }
+apache-lang3 = { module = "org.apache.commons:commons-lang3", version.ref = "apache-commons-lang3" }
+commons-io = { module = "commons-io:commons-io", version.ref = "commons-io" }
+jakarta-inject = { module = "jakarta.inject:jakarta.inject-api", version.ref = "jakarta-inject" }
+jsoup = { module = "org.jsoup:jsoup", version.ref = "jsoup" }
+lombok = { module = "org.projectlombok:lombok", version.ref = "lombok" }
+redisson = { module = "org.redisson:redisson-spring-data-35", version.ref = "redisson" }
+struct = { module = "org.thshsh:struct", version.ref = "struct" }

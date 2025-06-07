@@ -16,6 +16,8 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.socket.CloseStatus;
 import org.springframework.web.socket.TextMessage;
 import org.springframework.web.socket.WebSocketSession;
+import org.springframework.web.socket.handler.ConcurrentWebSocketSessionDecorator;
+import org.springframework.web.socket.handler.ConcurrentWebSocketSessionDecorator.OverflowStrategy;
 import org.springframework.web.socket.handler.TextWebSocketHandler;
 
 @Slf4j
@@ -29,20 +31,20 @@ public class WebSocketController extends TextWebSocketHandler implements
     private final String hostName;
 
     @Scheduled(fixedRate = 30, timeUnit = TimeUnit.SECONDS)
-    public synchronized void sendHeartbeat() {
+    public void sendHeartbeat() {
         for (var session : wsSessionService.getSessions()) {
             publish(session, new HeartbeatEvent(hostName));
         }
     }
 
     @Override
-    public synchronized void onApplicationEvent(@NonNull ExpiredEvent item) {
+    public void onApplicationEvent(@NonNull ExpiredEvent item) {
         for (var session : wsSessionService.getSessions()) {
             publish(session, item);
         }
     }
 
-    private void publish(WebSocketSession session, Object event) {
+    private void publish(ConcurrentWebSocketSessionDecorator session, Object event) {
         try {
             var serial = mapper.writeValueAsString(event);
             publish(session, serial);
@@ -51,7 +53,7 @@ public class WebSocketController extends TextWebSocketHandler implements
         }
     }
 
-    private void publish(WebSocketSession session, String message) {
+    private void publish(ConcurrentWebSocketSessionDecorator session, String message) {
         try {
             session.sendMessage(new TextMessage(message));
         } catch (IOException e) {
@@ -67,7 +69,8 @@ public class WebSocketController extends TextWebSocketHandler implements
     @Override
     public void afterConnectionEstablished(WebSocketSession session) {
         log.info("Connection established: {}", session.getId());
-        wsSessionService.addSession(session);
+        var wrappedSession = new ConcurrentWebSocketSessionDecorator(session, 1000*5, 1024 * 5, OverflowStrategy.DROP);
+        wsSessionService.addSession(wrappedSession);
     }
 
     @Override

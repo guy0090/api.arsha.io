@@ -1,0 +1,8 @@
+# Issue certificates from the staging server if testing
+# {
+# 	acme_ca https://acme-staging-v02.api.letsencrypt.org/directory
+# }
+
+https://<YOUR_HOST> {
+    reverse_proxy api.service.arsha:3000
+}
