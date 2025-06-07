@@ -6,8 +6,9 @@ import io.arsha.api.data.scraper.ScrapedItem;
 import io.arsha.api.exceptions.InvalidLocaleException;
 import io.arsha.api.services.ScraperService;
 import jakarta.annotation.Nullable;
-import jakarta.inject.Inject;
 import jakarta.validation.constraints.Size;
+import java.util.List;
+import java.util.Set;
 import lombok.RequiredArgsConstructor;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,13 +16,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
-import java.util.Set;
-
 @Validated
 @RestController
 @RequestMapping("/util")
-@RequiredArgsConstructor(onConstructor = @__(@Inject))
+@RequiredArgsConstructor
 public class UtilityController {
 
     final ObjectMapper mapper = new ObjectMapper();

@@ -1,4 +1,4 @@
-FROM azul/zulu-openjdk-alpine:23-latest AS builder
+FROM eclipse-temurin:24-jdk AS builder
 
 COPY .. /app
 WORKDIR /app

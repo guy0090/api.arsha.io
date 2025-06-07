@@ -1,15 +1,13 @@
 package io.arsha.api.config.services;
 
 import io.arsha.api.config.properties.BdoCodexProperties;
-import jakarta.inject.Inject;
+import java.net.URI;
+import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.net.URI;
-import java.util.List;
-
 @Service
-@RequiredArgsConstructor(onConstructor = @__(@Inject))
+@RequiredArgsConstructor
 public class CodexConfigurationService {
 
     private final BdoCodexProperties bdoCodexProperties;

@@ -1,7 +1,9 @@
 package io.arsha.api.controllers;
 
 import io.arsha.api.services.ScraperDataRedisService;
-import jakarta.inject.Inject;
+import java.time.Instant;
+import java.util.Map;
+import java.util.Properties;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.redis.core.RedisCallback;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -9,13 +11,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.time.Instant;
-import java.util.Map;
-import java.util.Properties;
-
 @RestController
 @RequestMapping("/status")
-@RequiredArgsConstructor(onConstructor = @__(@Inject))
+@RequiredArgsConstructor
 public class StatusController {
 
     private final RedisTemplate<String, String> redisTemplate;

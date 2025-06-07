@@ -4,7 +4,7 @@ import lombok.AccessLevel;
 import lombok.NoArgsConstructor;
 
 @NoArgsConstructor(access = AccessLevel.PRIVATE)
-public class MarketConstants {
+public final class MarketConstants {
     // Request meta
     public static final String USER_AGENT = "BlackDesert";
     public static final String BASE_PATH = "TradeMarket";

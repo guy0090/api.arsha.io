@@ -4,18 +4,16 @@ import io.arsha.api.config.MarketCategoriesConfiguration.MarketCategories;
 import io.arsha.api.config.MarketCategoriesConfiguration.MarketCategory;
 import io.arsha.api.config.MarketCategoriesConfiguration.MarketSubCategory;
 import jakarta.annotation.Nullable;
-import jakarta.inject.Inject;
-import lombok.RequiredArgsConstructor;
-import org.springframework.stereotype.Service;
-
 import java.util.List;
 import java.util.Objects;
 import java.util.SortedMap;
 import java.util.TreeMap;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 @Service
-@RequiredArgsConstructor(onConstructor = @__(@Inject))
+@RequiredArgsConstructor
 public class MarketCategoryService {
 
     private final MarketCategories marketCategories;

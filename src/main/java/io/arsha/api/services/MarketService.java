@@ -8,21 +8,24 @@ import io.arsha.api.data.market.responses.ParsedItems;
 import io.arsha.api.data.market.responses.RawItems;
 import io.arsha.api.exceptions.AbstractException;
 import io.arsha.api.exceptions.MarketRequestException;
-import jakarta.inject.Inject;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+import java.util.Map;
+import java.util.Optional;
+import java.util.Set;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import reactor.util.function.Tuple2;
 
-import java.util.*;
-import java.util.concurrent.CompletableFuture;
-import java.util.concurrent.ExecutionException;
-import java.util.stream.Collectors;
-
 @Slf4j
 @Service
-@RequiredArgsConstructor(onConstructor = @__(@Inject))
+@RequiredArgsConstructor
 public class MarketService {
 
     private final MarketRequestService marketRequestService;

@@ -6,51 +6,25 @@ import io.arsha.api.data.scraper.CodexData;
 import io.arsha.api.data.scraper.ScrapedItem;
 import io.arsha.api.exceptions.InvalidLocaleException;
 import io.arsha.api.schedulers.ScraperScheduler.ExecutionType;
-import jakarta.inject.Inject;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.web.client.RestTemplate;
-
 import java.time.Instant;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.stereotype.Service;
+import org.springframework.web.client.RestTemplate;
 
 @Slf4j
 @Service
-@RequiredArgsConstructor(onConstructor = @__(@Inject))
+@RequiredArgsConstructor
 public class ScraperService {
 
-    private final String hostName;
     private final RestTemplate httpClient;
     private final ScraperDataRedisService redisService;
     private final CodexConfigurationService codexConfigurationService;
-
-    public void setLock() {
-        redisService.setLock(hostName);
-    }
-
-    public void releaseLock() {
-        getLockOwner().ifPresent(k -> {
-            if (k.equals(hostName)) {
-                log.info("Releasing lock '{}'", hostName);
-                redisService.releaseLock();
-            } else {
-                log.debug("Attempted to release lock for host '{}' but lock is owned by '{}'", hostName, k);
-            }
-        });
-    }
-
-    public Optional<String> getLockOwner() {
-        return redisService.getLockOwner();
-    }
-
-    public boolean isLockOwner() {
-        return getLockOwner().map(k -> k.equals(hostName)).orElse(false);
-    }
 
     public Optional<Integer> scrape(String locale, ExecutionType executionType) {
         var data = requestItems(locale, executionType);
@@ -106,11 +80,6 @@ public class ScraperService {
 
         log.debug("Last scrape time for locale '{}': {}", locale, lastScrapedTime);
         return Instant.now().isAfter(lastScrapedTime.plusDays(6).toInstant());
-    }
-
-    public Optional<ScrapedItem> getScrapedItem(String locale, Long id) {
-        var itemId = String.valueOf(id);
-        return redisService.get(locale, itemId);
     }
 
     public Map<Long, ScrapedItem> getMappedScrapedItems(String locale, List<Long> ids) {
