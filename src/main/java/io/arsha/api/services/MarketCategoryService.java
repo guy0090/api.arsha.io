@@ -3,6 +3,7 @@ package io.arsha.api.services;
 import io.arsha.api.config.MarketCategoriesConfiguration.MarketCategories;
 import io.arsha.api.config.MarketCategoriesConfiguration.MarketCategory;
 import io.arsha.api.config.MarketCategoriesConfiguration.MarketSubCategory;
+import io.arsha.api.data.market.common.GameRegion;
 import jakarta.annotation.Nullable;
 import java.util.List;
 import java.util.Objects;
@@ -24,15 +25,19 @@ public class MarketCategoryService {
                 .toList();
     }
 
-    public List<Long> getSubCategories(Long mainCategory) {
+    public List<Long> getSubCategories(Long mainCategory, GameRegion region) {
         var category = marketCategories.stream()
                 .filter(c -> Objects.equals(c.id(), mainCategory))
                 .findFirst()
                 .orElseThrow();
 
-        return category.subCategories().stream()
-                .map(MarketSubCategory::id)
-                .toList();
+        var subCategories = category.subCategories().stream().map(MarketSubCategory::id);
+        if (region.isConsole() && category.id() == 30) {
+            // Special case for console categories, subcategory 3 of category 30 is not available
+            subCategories = subCategories.filter(sid -> sid != 3);
+        }
+
+        return subCategories.toList();
     }
 
     public boolean isValidCategory(Long category) {
@@ -40,10 +45,10 @@ public class MarketCategoryService {
                 .anyMatch(c -> Objects.equals(c.id(), category));
     }
 
-    public boolean isValidCombination(Long mainCategory, @Nullable Long subCategory) {
+    public boolean isValidCombination(Long mainCategory, @Nullable Long subCategory, GameRegion region) {
         if (!isValidCategory(mainCategory)) return false;
 
-        return subCategory == null || getSubCategories(mainCategory).stream()
+        return subCategory == null || getSubCategories(mainCategory, region).stream()
                 .anyMatch(s -> s.equals(subCategory));
     }
 

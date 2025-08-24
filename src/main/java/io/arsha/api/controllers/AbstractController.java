@@ -125,12 +125,12 @@ public abstract class AbstractController<T extends IMarketResponse> {
         var mainCategory = category.getMainCategory();
         var subCategory = category.getSubCategory();
 
-        if (!categoryService.isValidCombination(mainCategory, subCategory)) {
+        if (!categoryService.isValidCombination(mainCategory, subCategory, gameRegion)) {
             throw new MarketRequestException(category);
         }
 
         if (subCategory == null) {
-            var subCategories = categoryService.getSubCategories(mainCategory);
+            var subCategories = categoryService.getSubCategories(mainCategory, gameRegion);
             return subCategories.stream().map(id -> createKey(null, mainCategory, id, gameRegion, MarketEndpoint.MARKET_LIST))
                     .toList();
         } else {
