@@ -50,6 +50,11 @@ public class MarketResponse implements IMarketResponse {
     }
 
     @JsonIgnore
+    public boolean cannotBeRegistered() {
+        return resultCode == 8;
+    }
+
+    @JsonIgnore
     public List<String> getResult() {
         return switch (resultMessage) {
             case "" -> List.of();

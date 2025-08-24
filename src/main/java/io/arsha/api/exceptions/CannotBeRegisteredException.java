@@ -8,9 +8,9 @@ public class CannotBeRegisteredException extends AbstractException {
     @Getter
     private final MarketResponse response;
 
-    public CannotBeRegisteredException(String response) {
+    public CannotBeRegisteredException(MarketResponse response) {
         super();
-        this.response = MarketResponse.deserialize(response);
+        this.response = response;
     }
 
 }

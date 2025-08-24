@@ -40,4 +40,8 @@ public enum GameRegion {
 
         return null;
     }
+
+    public boolean isConsole() {
+        return this == CONSOLE_NA || this == CONSOLE_EU || this == CONSOLE_ASIA;
+    }
 }
