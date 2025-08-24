@@ -102,12 +102,15 @@ public class MarketRequestService {
     public String huffmanDecode(byte[] data) throws CannotBeRegisteredException, IOException, MarketResponseBodyException {
         var testString = new String(data);
         if (testString.contains("resultMsg")) {
-            throw new CannotBeRegisteredException(testString);
+            var marketResponse = MarketResponse.deserialize(testString);
+            if (marketResponse.cannotBeRegistered()) {
+                throw new CannotBeRegisteredException(marketResponse);
+            }
         }
 
         // Starts with HTML opening tag, probably blocked by Imperva
         if (testString.startsWith("<html")) throw new MarketResponseBodyException();
 
-        return huffmanDecoder.decode(data);
+        return huffmanDecoder.unpack(data);
     }
 }
