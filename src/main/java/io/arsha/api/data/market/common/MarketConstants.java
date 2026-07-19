@@ -21,7 +21,7 @@ public final class MarketConstants {
     public static final String TW_URL = "trade.tw.playblackdesert.com";
     public static final String SA_URL = "trade.sa.playblackdesert.com";
     public static final String GL_URL = "trade.global-lab.playblackdesert.com";
-    public static final String CONSOLE_NA_URL = "na-trade.console.playblackdesert.com";
-    public static final String CONSOLE_EU_URL = "eu-trade.console.playblackdesert.com";
-    public static final String CONSOLE_ASIA_URL = "asia-trade.console.playblackdesert.com";
+    public static final String CONSOLE_NA_URL = "console-na-trade.blackdesert.pearlabyss.com";
+    public static final String CONSOLE_EU_URL = "console-eu-trade.blackdesert.pearlabyss.com";
+    public static final String CONSOLE_ASIA_URL = "console-asia-trade.blackdesert.pearlabyss.com";
 }

@@ -89,10 +89,10 @@ marketplace:
     url: "trade.global-lab.playblackdesert.com"
   console.na:
     enabled: true
-    url: "na-trade.console.playblackdesert.com"
+    url: "console-na-trade.blackdesert.pearlabyss.com"
   console.eu:
     enabled: true
-    url: "eu-trade.console.playblackdesert.com"
+    url: "console-eu-trade.blackdesert.pearlabyss.com"
   console.asia:
     enabled: true
-    url: "asia-trade.console.playblackdesert.com"
+    url: "console-asia-trade.blackdesert.pearlabyss.com"
